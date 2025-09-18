@@ -1,0 +1,25 @@
+# Build output & binaries
+[Bb]in/
+[Oo]bj/
+publish_installer/
+ReleaseApp/
+temp_payload_build/
+CobblemonInstaller/payload.zip
+
+# Visual Studio / IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs & temp files
+*.log
+*.tmp
+*.old
+*.bak
+
+# OS generated
+.DS_Store
+Thumbs.db

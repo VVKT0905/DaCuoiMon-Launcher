@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/YSMViewer/">
+    <Project Path="YSMViewer/YSMViewer.Core/YSMViewer.Core.csproj" />
+    <Project Path="YSMViewer/YSMViewer.Desktop/YSMViewer.Desktop.csproj" />
+    <Project Path="YSMViewer/YSMViewer/YSMViewer.csproj" />
+  </Folder>
+  <Project Path="CobblemonInstaller/CobblemonInstaller.csproj" />
+  <Project Path="CobblemonLauncher/CobblemonLauncher.csproj" />
+</Solution>
