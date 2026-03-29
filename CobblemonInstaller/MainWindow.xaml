@@ -1,0 +1,302 @@
+<Window x:Class="CobblemonInstaller.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Cài Đặt Đá Cuội Mon"
+        Height="510" Width="560"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        FontFamily="Segoe UI, -apple-system, BlinkMacSystemFont, Arial"
+        Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <!-- Apple Liquid Glass Shadow -->
+        <DropShadowEffect x:Key="LiquidGlassShadow" Color="#000000" BlurRadius="35" ShadowDepth="8" Opacity="0.75" Direction="270"/>
+        <!-- Apple Emerald Liquid Glow -->
+        <DropShadowEffect x:Key="EmeraldLiquidGlow" Color="#00FF9D" BlurRadius="24" ShadowDepth="2" Opacity="0.85" Direction="270"/>
+
+        <!-- Modern Dark TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#1AFFFFFF"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="CaretBrush" Value="#00FF9D"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                CornerRadius="12" Margin="0">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#40FFFFFF" Offset="0.0"/>
+                                    <GradientStop Color="#15FFFFFF" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="10,6"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#25FFFFFF"/>
+                                <Setter TargetName="Bd" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="#00FF9D"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Secondary Button Style -->
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#25FFFFFF"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="10" Padding="12,6">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#40FFFFFF" Offset="0.0"/>
+                                    <GradientStop Color="#15FFFFFF" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#40FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Close Button -->
+        <Style x:Key="AppleCloseBtn" TargetType="Button">
+            <Setter Property="Background" Value="#20FFFFFF"/>
+            <Setter Property="Foreground" Value="#B0C4DE"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="26"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="13">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#FF453A"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <!-- Outer Canvas with margin for protruding mascot & soft shadow -->
+    <Grid Margin="12,16,12,14">
+        <!-- APPLE LIQUID GLASS CARD -->
+        <Border Margin="0,32,0,0" CornerRadius="28" BorderThickness="1.2"
+                Background="#F0080B10" Effect="{StaticResource LiquidGlassShadow}">
+            <!-- Specular Rim Border -->
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#85FFFFFF" Offset="0.0"/>
+                    <GradientStop Color="#25FFFFFF" Offset="0.35"/>
+                    <GradientStop Color="#0DFFFFFF" Offset="0.70"/>
+                    <GradientStop Color="#35FFFFFF" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <!-- Card Interior Grid with perfect rounded corner clipping -->
+            <Grid MouseLeftButtonDown="Window_MouseDown">
+                <Grid.Clip>
+                    <RectangleGeometry Rect="0,0,536,448" RadiusX="28" RadiusY="28"/>
+                </Grid.Clip>
+
+                <!-- Subtle Top Caustic Glint -->
+                <Border CornerRadius="28,28,0,0" VerticalAlignment="Top" Height="140">
+                    <Border.Background>
+                        <RadialGradientBrush Center="0.5,-0.2" GradientOrigin="0.5,-0.2" RadiusX="0.8" RadiusY="0.6">
+                            <GradientStop Color="#22FFFFFF" Offset="0.0"/>
+                            <GradientStop Color="#0600FF9D" Offset="0.6"/>
+                            <GradientStop Color="#00000000" Offset="1.0"/>
+                        </RadialGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- Close Button -->
+                <Button Content="✕" Style="{StaticResource AppleCloseBtn}" HorizontalAlignment="Right"
+                        VerticalAlignment="Top" Margin="0,14,16,0" Click="BtnClose_Click"/>
+
+                <!-- CONTENT AREA -->
+                <Grid Margin="28,32,28,22">
+                    <!-- ============================================== -->
+                    <!-- 1. INSTALL PANEL (Default View)                -->
+                    <!-- ============================================== -->
+                    <Grid x:Name="PanelInstall" Visibility="Visible">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Minecraft 1.21.1 Fabric • Cobblemon Modpack + 9 Addon Mods"
+                                       FontSize="12" Foreground="#8FA0B4" HorizontalAlignment="Center" Margin="0,10,0,24"/>
+
+                            <!-- Directory selection -->
+                            <TextBlock Text="Thư mục cài đặt ứng dụng &amp; dữ liệu:" FontSize="12" FontWeight="SemiBold"
+                                       Foreground="#C9D1D9" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="TxtInstallDir" Height="38"/>
+                                <Button Grid.Column="1" Content="📂 Chọn..." Style="{StaticResource SecondaryButton}"
+                                        Height="38" Margin="8,0,0,0" Click="BtnBrowse_Click"/>
+                            </Grid>
+
+                            <!-- Checkbox Options -->
+                            <CheckBox x:Name="ChkDesktopShortcut" Content="Tạo biểu tượng ngoài màn hình Desktop"
+                                      IsChecked="True" Foreground="#C9D1D9" FontSize="12" Margin="2,0,0,10"/>
+                            <CheckBox x:Name="ChkStartMenuShortcut" Content="Tạo lối tắt trong Start Menu"
+                                      IsChecked="True" Foreground="#C9D1D9" FontSize="12" Margin="2,0,0,28"/>
+
+                            <!-- Action Install Button -->
+                            <Button x:Name="BtnInstall" Height="54" Cursor="Hand" Click="BtnInstall_Click">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid>
+                                            <Border CornerRadius="16" Background="#00FF9D" Opacity="0.55"
+                                                    Effect="{StaticResource EmeraldLiquidGlow}" Margin="2"/>
+                                            <Border CornerRadius="16" BorderThickness="1.5">
+                                                <Border.BorderBrush>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                        <GradientStop Color="#C0FFFFFF" Offset="0.0"/>
+                                                        <GradientStop Color="#4000FF9D" Offset="1.0"/>
+                                                    </LinearGradientBrush>
+                                                </Border.BorderBrush>
+                                                <Border CornerRadius="15" ClipToBounds="True">
+                                                    <Border.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                            <GradientStop Color="#00FFB2" Offset="0.0"/>
+                                                            <GradientStop Color="#00B86B" Offset="1.0"/>
+                                                        </LinearGradientBrush>
+                                                    </Border.Background>
+                                                    <TextBlock Text="BẮT ĐẦU CÀI ĐẶT" FontSize="16" FontWeight="Black"
+                                                               Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="RenderTransform">
+                                                    <Setter.Value>
+                                                        <ScaleTransform ScaleX="1.02" ScaleY="1.02" CenterX="240" CenterY="27"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- ============================================== -->
+                    <!-- 2. PROGRESS PANEL (During installation)       -->
+                    <!-- ============================================== -->
+                    <Grid x:Name="PanelProgress" Visibility="Collapsed" VerticalAlignment="Center">
+                        <StackPanel Width="420" HorizontalAlignment="Center">
+                            <TextBlock x:Name="TxtProgressStatus" Text="Đang chuẩn bị cài đặt..." FontSize="13"
+                                       FontWeight="SemiBold" Foreground="#FFFFFF" Margin="0,0,0,8"/>
+                            <Border CornerRadius="5" Height="8" Background="#20FFFFFF" Margin="0,0,0,16" ClipToBounds="True">
+                                <ProgressBar x:Name="ProgressBarInstall" Height="8" Value="0" Maximum="100"
+                                             Background="Transparent" Foreground="#00FF9D" BorderThickness="0"/>
+                            </Border>
+                            <TextBlock Text="Vui lòng đợi giây lát trong khi các tập tin đang được trích xuất..."
+                                       FontSize="11" Foreground="#8FA0B4" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- ============================================== -->
+                    <!-- 3. COMPLETED PANEL (After installation)       -->
+                    <!-- ============================================== -->
+                    <Grid x:Name="PanelCompleted" Visibility="Collapsed" VerticalAlignment="Center">
+                        <StackPanel Width="420" HorizontalAlignment="Center">
+                            <TextBlock Text="✔ CÀI ĐẶT THÀNH CÔNG!" FontSize="20" FontWeight="Black"
+                                       Foreground="#00FF9D" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <TextBlock Text="Đá Cuội Mon đã được cài đặt hoàn tất và sẵn sàng khởi chạy."
+                                       FontSize="13" Foreground="#C9D1D9" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+
+                            <CheckBox x:Name="ChkLaunchNow" Content="Khởi chạy Đá Cuội Mon ngay bây giờ"
+                                      IsChecked="True" Foreground="#FFFFFF" FontSize="13" FontWeight="SemiBold"
+                                      HorizontalAlignment="Center" Margin="0,0,0,24"/>
+
+                            <Button Height="50" Content="HOÀN TẤT" Style="{StaticResource SecondaryButton}"
+                                    Width="220" FontSize="14" FontWeight="Bold" Click="BtnFinish_Click"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- ============================================== -->
+                    <!-- 4. UNINSTALL PANEL (When run as uninstaller)  -->
+                    <!-- ============================================== -->
+                    <Grid x:Name="PanelUninstall" Visibility="Collapsed" VerticalAlignment="Center">
+                        <StackPanel Width="440" HorizontalAlignment="Center">
+                            <TextBlock Text="GỠ CÀI ĐẶT ĐÁ CUỘI MON" FontSize="18" FontWeight="Black"
+                                       Foreground="#FF6B6B" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="Bạn có chắc chắn muốn gỡ cài đặt Đá Cuội Mon khỏi máy tính?"
+                                       FontSize="13" Foreground="#E2E8F0" HorizontalAlignment="Center" Margin="0,0,0,14"/>
+
+                            <Border Background="#25FF3B30" BorderBrush="#60FF3B30" BorderThickness="1"
+                                    CornerRadius="10" Padding="12,10" Margin="0,0,0,24">
+                                <TextBlock Text="Toàn bộ dữ liệu game, danh sách 9 bản mod addon, thế giới và bộ cài Java 21 Portable trong thư mục ứng dụng sẽ được dọn dẹp và xóa sạch hoàn toàn 100%."
+                                           FontSize="12" Foreground="#FFA4A4" TextWrapping="Wrap" LineHeight="17"/>
+                            </Border>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="HỦY BỎ" Style="{StaticResource SecondaryButton}"
+                                        Width="130" Height="44" Margin="0,0,14,0" Click="BtnClose_Click"/>
+                                <Button x:Name="BtnDoUninstall" Content="GỠ CÀI ĐẶT" Width="170" Height="44"
+                                        Background="#FF453A" Foreground="#FFFFFF" FontWeight="Bold" FontSize="13"
+                                        Cursor="Hand" Click="BtnDoUninstall_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- TOP MIDDLE: Emoji Cobblestone & Half Doraemon ("Đá Cuội Mon") -->
+        <Border HorizontalAlignment="Center" VerticalAlignment="Top" Height="80" Cursor="Hand"
+                MouseLeftButtonDown="Window_MouseDown">
+            <Image x:Name="ImgMascot" Height="76" Stretch="Uniform"
+                   Source="pack://application:,,,/Assets/mascot.png"
+                   RenderOptions.BitmapScalingMode="HighQuality"/>
+        </Border>
+    </Grid>
+</Window>
