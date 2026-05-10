@@ -1,0 +1,64 @@
+﻿using Avalonia;
+using Avalonia.Browser;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using YSMViewer;
+using YSMViewer.Browser.Rendering.ThreeJs;
+using YSMViewer.Browser.Views;
+using YSMViewer.Services;
+
+internal sealed partial class Program
+{
+    private static async Task Main(string[] args)
+    {
+        if (args.Length > 0 && !string.IsNullOrEmpty(args[0]))
+        {
+            try
+            {
+                var url = args[0];
+                var queryIndex = url.IndexOf('?');
+                if (queryIndex >= 0)
+                {
+                    var query = url[(queryIndex + 1)..];
+                    foreach (var pair in query.Split('&'))
+                    {
+                        var kv = pair.Split('=', 2);
+                        if (kv.Length == 2 && string.Equals(kv[0], "file", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            var fileValue = Uri.UnescapeDataString(kv[1]);
+                            if (!string.IsNullOrEmpty(fileValue))
+                            {
+                                var baseUri = new Uri(url, UriKind.Absolute);
+                                App.StartupFileUrl = Uri.TryCreate(fileValue, UriKind.Absolute, out var absoluteUri)
+                                    ? absoluteUri.ToString()
+                                    : new Uri(baseUri, fileValue).ToString();
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"[YSMViewer.Browser] Failed to parse startup URL: {ex.Message}");
+            }
+        }
+
+        var services = new ServiceCollection();
+        services.AddPlatformLogging();
+        services.AddYsmViewerServices();
+        services.AddSingleton<YSMViewer.Rendering.IRenderer, ThreeJsRenderer>();
+        App.Services = services.BuildServiceProvider();
+        ServiceCollectionExtensions.InitializeLogging(App.Services);
+
+        App.CreateDesktopMainView = null;
+        App.CreateBrowserMainView = vm => new BrowserMainView { DataContext = vm };
+
+        await BuildAvaloniaApp()
+            .WithInterFont()
+            .StartBrowserAppAsync("out");
+    }
+
+    public static AppBuilder BuildAvaloniaApp()
+        => AppBuilder.Configure<App>();
+}

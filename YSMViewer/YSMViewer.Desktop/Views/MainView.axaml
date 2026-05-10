@@ -1,0 +1,415 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:YSMViewer.ViewModels;assembly=YSMViewer"
+             xmlns:v="clr-namespace:YSMViewer.Views;assembly=YSMViewer"
+             xmlns:svg="clr-namespace:Avalonia.Svg.Skia;assembly=Svg.Controls.Skia.Avalonia"
+             xmlns:shared="clr-namespace:YSMViewer.Views.Shared;assembly=YSMViewer"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="YSMViewer.Desktop.Views.MainView"
+             x:DataType="vm:MainViewModel"
+             DragDrop.AllowDrop="True">
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <UserControl.Resources>
+        <vm:NotificationIconConverter x:Key="NotificationIconConverter" />
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgButton}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextSecondary}" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="Button:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgHover}" />
+        </Style>
+        <Style Selector="Button:pressed">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgActive}" />
+        </Style>
+        <Style Selector="Button:disabled">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+        <Style Selector="Expander">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        <Style Selector="Expander /template/ ToggleButton#ExpanderHeader">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="12,10" />
+        </Style>
+        <Style Selector="Expander /template/ ToggleButton#ExpanderHeader:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgHover}" />
+        </Style>
+        <Style Selector="ProgressBar">
+            <Setter Property="Foreground" Value="{DynamicResource ThemeAccentRed}" />
+            <Setter Property="Background" Value="{DynamicResource ThemeBorder}" />
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+    <Grid RowDefinitions="Auto,*,Auto" Background="{DynamicResource ThemeBgViewport}">
+
+        <shared:ModelToolBar Grid.Row="0" DataContext="{Binding}" IsVisible="{Binding !IsLauncherPreviewMode}" />
+
+        <!-- Cobblemon Preview Header -->
+        <Border Grid.Row="0" Background="#111622" BorderBrush="#20FFFFFF" BorderThickness="0,0,0,1"
+                Padding="16,8" IsVisible="{Binding IsLauncherPreviewMode}">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <TextBlock Text="COBBLEMON 3D PREVIEW" FontWeight="Black" FontSize="14" Foreground="#00FF9D" VerticalAlignment="Center"/>
+                    <TextBlock Text="•" Foreground="#55FFFFFF" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding PreviewSkinTitle}" FontWeight="Bold" FontSize="14" Foreground="#FFFFFF" VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                    <!-- Action Button in Preview Mode -->
+                    <Button IsEnabled="{Binding CanPerformPreviewAction}"
+                            Click="OnPreviewActionClick"
+                            Background="#00FF9D" Foreground="#0A0E17"
+                            FontWeight="Black" FontSize="13" CornerRadius="8"
+                            Padding="16,6">
+                        <TextBlock Text="{Binding PreviewActionText}"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ===== Main Content ===== -->
+        <Grid Grid.Row="1" x:Name="MainContentGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280" MinWidth="0" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="300" MinWidth="0" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Folder Browser -->
+            <Border Grid.Column="0" Background="{DynamicResource ThemeBgSurface}"
+                    BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="0,0,1,0"
+                    IsVisible="{Binding IsLeftPanelVisible}">
+                <Grid RowDefinitions="Auto,*">
+                    <Border Grid.Row="0" Padding="8,6" Background="{DynamicResource ThemeBgElevated}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Files" FontWeight="SemiBold" FontSize="12"
+                                       Foreground="{DynamicResource ThemeTextPrimary}"
+                                       VerticalAlignment="Center" />
+                            <Button Grid.Column="1" x:Name="LeftPanelToggleBtn"
+                                     Width="24" Height="24" Padding="0"
+                                     CornerRadius="4" Background="Transparent"
+                                     ToolTip.Tip="Collapse panel"
+                                     Click="OnToggleLeftPanelClick">
+                                <svg:Svg x:Name="LeftPanelToggleIcon"
+                                         Path="avares://YSMViewer/Assets/svg/chevron-left.svg"
+                                         Stretch="Uniform" Width="14" Height="14" />
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <v:FolderBrowserView Grid.Row="1"
+                                         DataContext="{Binding FolderBrowser}" />
+                </Grid>
+            </Border>
+
+            <!-- Left Splitter -->
+            <GridSplitter Grid.Column="1" Width="4"
+                          Background="Transparent"
+                          ResizeBehavior="PreviousAndNext"
+                          IsVisible="{Binding IsLeftPanelVisible}" />
+
+            <!-- Viewport -->
+            <Panel Grid.Column="2" x:Name="ViewportPanel">
+                <ContentControl Content="{Binding Renderer.View}" />
+
+                <!-- Gizmo overlay -->
+                <Border x:Name="GizmoBorder"
+                        Width="100" Height="100"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Margin="0,0,16,16"
+                        Background="Transparent"
+                        CornerRadius="8"
+                        PointerEntered="OnGizmoPointerEntered"
+                        PointerExited="OnGizmoPointerExited"
+                        PointerPressed="OnGizmoPointerPressed"
+                        PointerReleased="OnGizmoPointerReleased">
+                    <ContentControl x:Name="GizmoHost" />
+                </Border>
+
+                <!-- Floating restore buttons for collapsed panels -->
+                <Border x:Name="LeftRestoreBtn"
+                        HorizontalAlignment="Left" VerticalAlignment="Center"
+                        Margin="0,0,0,0" IsHitTestVisible="True"
+                        Background="{DynamicResource ThemeBgSurface}"
+                        BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="0,1,1,1"
+                        CornerRadius="0,6,6,0" Padding="0"
+                        Width="20" Height="48"
+                        IsVisible="{Binding ShowPanelRestoreButtons}">
+                    <Border.Styles>
+                        <Style Selector="Border#LeftRestoreBtn">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                        <Style Selector="Border#LeftRestoreBtn:pointerover">
+                            <Setter Property="Opacity" Value="1" />
+                        </Style>
+                    </Border.Styles>
+                    <Button Width="20" Height="48" Padding="0"
+                            CornerRadius="0,6,6,0" Background="Transparent"
+                            Click="OnToggleLeftPanelClick">
+                        <svg:Svg Path="avares://YSMViewer/Assets/svg/chevron-right.svg"
+                                 Stretch="Uniform" Width="12" Height="12" />
+                    </Button>
+                </Border>
+
+                <Border x:Name="RightRestoreBtn"
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Margin="0,0,0,0" IsHitTestVisible="True"
+                        Background="{DynamicResource ThemeBgSurface}"
+                        BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1,1,0,1"
+                        CornerRadius="6,0,0,6" Padding="0"
+                        Width="20" Height="48"
+                        IsVisible="{Binding ShowPanelRestoreButtons}">
+                    <Border.Styles>
+                        <Style Selector="Border#RightRestoreBtn">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                        <Style Selector="Border#RightRestoreBtn:pointerover">
+                            <Setter Property="Opacity" Value="1" />
+                        </Style>
+                    </Border.Styles>
+                    <Button Width="20" Height="48" Padding="0"
+                            CornerRadius="6,0,0,6" Background="Transparent"
+                            Click="OnToggleRightPanelClick">
+                        <svg:Svg Path="avares://YSMViewer/Assets/svg/chevron-left.svg"
+                                 Stretch="Uniform" Width="12" Height="12" />
+                    </Button>
+                </Border>
+
+                <!-- Empty state overlay -->
+                <Border IsVisible="{Binding !HasModel}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        CornerRadius="16" Padding="48,40"
+                        Background="{DynamicResource ThemeBgSurface}">
+                    <StackPanel HorizontalAlignment="Center" Spacing="16">
+                        <TextBlock Text="YSMViewer" FontSize="36" FontWeight="Bold"
+                                   Foreground="{DynamicResource ThemeTextPrimary}"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding LocEmptyState}"
+                                   FontSize="15" Foreground="{DynamicResource ThemeTextSecondary}"
+                                   HorizontalAlignment="Center" />
+                        <Button Content="{Binding LocOpenFile}" Click="OnOpenButtonClick"
+                                HorizontalAlignment="Center"
+                                Background="{DynamicResource ThemeAccentRed}" Foreground="White"
+                                FontSize="14" Padding="24,10" CornerRadius="8" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Drag-and-drop overlay -->
+                <Border x:Name="DragOverlay"
+                        IsVisible="False"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Background="{DynamicResource ThemeBgSurface}"
+                        Opacity="0.92"
+                        CornerRadius="12" Margin="8"
+                        BorderBrush="{DynamicResource ThemeAccent}" BorderThickness="2">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+                        <TextBlock Text="{Binding LocDropHint}" FontSize="22" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource ThemeAccent}"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding LocDropHintExt}" FontSize="14"
+                                   Foreground="{DynamicResource ThemeTextSecondary}"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Error overlay -->
+                <Border IsVisible="{Binding HasError}"
+                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                        Margin="16" CornerRadius="10" Padding="20,16"
+                        MaxWidth="560"
+                        Background="{DynamicResource ThemeErrorBg}" Opacity="0.95">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{Binding LocErrorTitle}" FontWeight="Bold" FontSize="15"
+                                   Foreground="{DynamicResource ThemeErrorText}" />
+                        <ScrollViewer MaxHeight="140">
+                            <SelectableTextBlock Text="{Binding ErrorDetail}" FontSize="11"
+                                                  Foreground="{DynamicResource ThemeErrorText}" Opacity="0.8" TextWrapping="Wrap" />
+                        </ScrollViewer>
+                        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                            <Button Content="{Binding LocCopy}" Click="OnCopyErrorClick"
+                                    Background="{DynamicResource ThemeBgButton}" Foreground="{DynamicResource ThemeTextSecondary}"
+                                    Padding="12,4" CornerRadius="4" FontSize="11" />
+                            <Button Content="{Binding LocDismiss}" Click="OnDismissErrorClick"
+                                    Background="{DynamicResource ThemeAccentRed}" Foreground="White"
+                                    Padding="14,4" CornerRadius="4" FontSize="11" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Panel>
+
+            <!-- Right Splitter -->
+            <GridSplitter Grid.Column="3" Width="4"
+                          Background="Transparent"
+                          ResizeBehavior="PreviousAndNext"
+                          IsVisible="{Binding IsRightPanelVisible}" />
+
+            <!-- Side Panel -->
+            <Border Grid.Column="4"
+                    Background="{DynamicResource ThemeBgSurface}"
+                    BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1,0,0,0"
+                    IsVisible="{Binding IsRightPanelVisible}">
+                <shared:SidePanelContent DataContext="{Binding}">
+                    <shared:SidePanelContent.PlatformAnimationContent>
+                        <StackPanel>
+                            <Expander IsExpanded="False" Padding="0"
+                                      IsVisible="{Binding HasOrphanExtraAnimationSettings}"
+                                      Margin="0,6,0,0">
+                                <Expander.Header>
+                                    <TextBlock Text="Extra Animation Settings"
+                                               FontSize="11" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource ThemeTextMuted}" />
+                                </Expander.Header>
+                                <ItemsControl ItemsSource="{Binding OrphanExtraAnimationSettingsGroups}"
+                                              Margin="0,6,0,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:ExtraAnimationSettingsGroupViewModel">
+                                            <Expander IsExpanded="True" Padding="0" Margin="0,0,0,6">
+                                                <Expander.Header>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="11" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource ThemeTextMuted}" />
+                                                </Expander.Header>
+                                                <ItemsControl ItemsSource="{Binding Forms}" Margin="0,4,0,0">
+                                                    <ItemsControl.DataTemplates>
+                                                        <DataTemplate x:DataType="vm:ExtraAnimationBooleanFormViewModel">
+                                                            <Border CornerRadius="4" Padding="6,4" Margin="0,0,0,4"
+                                                                    Background="{DynamicResource ThemeBgElevated}">
+                                                                <Grid ColumnDefinitions="*,Auto">
+                                                                    <StackPanel Grid.Column="0" Spacing="1" VerticalAlignment="Center">
+                                                                        <TextBlock Text="{Binding Title}"
+                                                                                   FontSize="11"
+                                                                                   Foreground="{DynamicResource ThemeTextPrimary}" />
+                                                                        <TextBlock Text="{Binding Description}"
+                                                                                   FontSize="9"
+                                                                                   Foreground="{DynamicResource ThemeTextMuted}"
+                                                                                   TextTrimming="CharacterEllipsis" />
+                                                                    </StackPanel>
+                                                                    <ToggleSwitch Grid.Column="1"
+                                                                                  IsChecked="{Binding Value}"
+                                                                                  VerticalAlignment="Center" />
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                        <DataTemplate x:DataType="vm:ExtraAnimationRangeFormViewModel">
+                                                            <Border CornerRadius="4" Padding="6,4" Margin="0,0,0,4"
+                                                                    Background="{DynamicResource ThemeBgElevated}">
+                                                                <StackPanel Spacing="4">
+                                                                    <StackPanel Spacing="1">
+                                                                        <TextBlock Text="{Binding Title}"
+                                                                                   FontSize="11"
+                                                                                   Foreground="{DynamicResource ThemeTextPrimary}" />
+                                                                        <TextBlock Text="{Binding Description}"
+                                                                                   FontSize="9"
+                                                                                   Foreground="{DynamicResource ThemeTextMuted}"
+                                                                                   TextTrimming="CharacterEllipsis" />
+                                                                    </StackPanel>
+                                                                    <Grid ColumnDefinitions="40,*,40">
+                                                                        <TextBlock Grid.Column="0" Text="{Binding Min}"
+                                                                                   FontSize="9" VerticalAlignment="Center"
+                                                                                   Foreground="{DynamicResource ThemeTextMuted}" />
+                                                                        <Slider Grid.Column="1"
+                                                                                Minimum="{Binding Min}"
+                                                                                Maximum="{Binding Max}"
+                                                                                Value="{Binding Value}"
+                                                                                TickFrequency="{Binding Step}"
+                                                                                Margin="4,0" />
+                                                                        <TextBlock Grid.Column="2" Text="{Binding Max}"
+                                                                                   FontSize="9" VerticalAlignment="Center"
+                                                                                   Foreground="{DynamicResource ThemeTextMuted}"
+                                                                                   HorizontalAlignment="Right" />
+                                                                    </Grid>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                        <DataTemplate x:DataType="vm:ExtraAnimationRadioFormViewModel">
+                                                            <Border CornerRadius="4" Padding="6,4" Margin="0,0,0,4"
+                                                                    Background="{DynamicResource ThemeBgElevated}">
+                                                                <StackPanel Spacing="4">
+                                                                    <StackPanel Spacing="1">
+                                                                        <TextBlock Text="{Binding Title}"
+                                                                                   FontSize="11"
+                                                                                   Foreground="{DynamicResource ThemeTextPrimary}" />
+                                                                        <TextBlock Text="{Binding Description}"
+                                                                                   FontSize="9"
+                                                                                   Foreground="{DynamicResource ThemeTextMuted}"
+                                                                                   TextTrimming="CharacterEllipsis" />
+                                                                    </StackPanel>
+                                                                    <ComboBox ItemsSource="{Binding Options}"
+                                                                              SelectedItem="{Binding SelectedOption}"
+                                                                              HorizontalAlignment="Stretch"
+                                                                              FontSize="11"
+                                                                              Padding="4,2">
+                                                                        <ComboBox.ItemTemplate>
+                                                                            <DataTemplate x:DataType="vm:ExtraAnimationRadioOptionViewModel">
+                                                                                <TextBlock Text="{Binding Label}" />
+                                                                            </DataTemplate>
+                                                                        </ComboBox.ItemTemplate>
+                                                                    </ComboBox>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.DataTemplates>
+                                                </ItemsControl>
+                                            </Expander>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Expander>
+                            <Expander IsExpanded="False" Padding="0"
+                                      IsVisible="{Binding HasMolangVariables}">
+                                <Expander.Header>
+                                    <TextBlock Text="Molang Variables" FontWeight="SemiBold" FontSize="13"
+                                               Foreground="{DynamicResource ThemeTextPrimary}" />
+                                </Expander.Header>
+                                <v:MolangPanelView DataContext="{Binding MolangPanel}" />
+                            </Expander>
+                        </StackPanel>
+                    </shared:SidePanelContent.PlatformAnimationContent>
+                </shared:SidePanelContent>
+            </Border>
+    </Grid>
+
+        <shared:ModelBottomBar Grid.Row="2" DataContext="{Binding}" />
+</Grid>
+
+    <!-- Toast overlay -->
+    <ItemsControl ItemsSource="{Binding Notifications.Notifications}"
+                  HorizontalAlignment="Right" VerticalAlignment="Top"
+                  Margin="16,56,16,0" MaxWidth="380">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:NotificationViewModel">
+                <Border CornerRadius="8" Padding="12,8" Margin="0,0,0,8"
+                        Background="{DynamicResource ThemeBgElevated}"
+                        BorderBrush="{DynamicResource ThemeAccent}" BorderThickness="1">
+                    <Grid ColumnDefinitions="Auto,*">
+                        <TextBlock Grid.Column="0" Text="{Binding Type, Converter={StaticResource NotificationIconConverter}}"
+                                   FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{Binding Message}" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource ThemeTextPrimary}" FontSize="12"
+                                   VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</Panel>
+</UserControl>

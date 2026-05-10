@@ -1,0 +1,46 @@
+namespace YSMViewer.Rendering;
+
+public enum RenderCameraView
+{
+    Front,
+    Side,
+    Top,
+}
+
+public sealed record RenderTheme(
+    byte BgR, byte BgG, byte BgB, byte BgA,
+    bool IsDark);
+
+public sealed record RendererCapabilities(
+    bool SupportsAnimation,
+    bool SupportsPhysicalMolang,
+    bool SupportsComponentVisibility,
+    bool SupportsBoneVisibility,
+    bool SupportsTextureProjection,
+    bool SupportsAutoRotation,
+    bool SupportsFreeCamera,
+    bool SupportsGizmo,
+    bool SupportsAudio)
+{
+    public static RendererCapabilities Desktop { get; } = new(
+        SupportsAnimation: true,
+        SupportsPhysicalMolang: true,
+        SupportsComponentVisibility: true,
+        SupportsBoneVisibility: true,
+        SupportsTextureProjection: false,
+        SupportsAutoRotation: false,
+        SupportsFreeCamera: true,
+        SupportsGizmo: true,
+        SupportsAudio: true);
+
+    public static RendererCapabilities Browser { get; } = new(
+        SupportsAnimation: true,
+        SupportsPhysicalMolang: false,
+        SupportsComponentVisibility: true,
+        SupportsBoneVisibility: true,
+        SupportsTextureProjection: false,
+        SupportsAutoRotation: false,
+        SupportsFreeCamera: false,
+        SupportsGizmo: false,
+        SupportsAudio: false);
+}

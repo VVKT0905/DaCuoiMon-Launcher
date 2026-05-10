@@ -1,0 +1,117 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:YSMViewer.ViewModels"
+             x:DataType="vm:MolangPanelViewModel"
+             x:Class="YSMViewer.Views.MolangPanelView">
+
+    <UserControl.Resources>
+        <vm:FloatToBoolConverter x:Key="FloatToBoolConverter" />
+        <vm:DomainToBadgeBrushConverter x:Key="DomainToBadgeBrushConverter" />
+        <vm:FloatToStringConverter x:Key="FloatToStringConverter" />
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="ToggleSwitch">
+            <Setter Property="OnContent" Value="" />
+            <Setter Property="OffContent" Value="" />
+        </Style>
+    </UserControl.Styles>
+
+    <StackPanel Spacing="8" Margin="12,8">
+
+        <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Variables.Count, StringFormat='{}{0} variables'}"
+                       FontSize="11"
+                       Foreground="{DynamicResource ThemeTextMuted}"
+                       VerticalAlignment="Center" />
+            <Button Grid.Column="1"
+                    Content="Reset All"
+                    Command="{Binding ResetAllToDefaultsCommand}"
+                    FontSize="10" Padding="8,3" CornerRadius="4"
+                    Background="{DynamicResource ThemeBgButton}"
+                    Foreground="{DynamicResource ThemeTextSecondary}" />
+        </Grid>
+
+        <Border Height="1" Background="{DynamicResource ThemeDivider}" />
+
+        <ScrollViewer MaxHeight="400"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Variables}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:MolangVariableItem">
+                        <Border CornerRadius="6" Margin="0,0,0,6"
+                                Padding="10,10"
+                                ClipToBounds="False"
+                                Background="{DynamicResource ThemeBgElevated}">
+                            <StackPanel Spacing="8">
+
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Border Grid.Column="0"
+                                            CornerRadius="3" Padding="5,1"
+                                            VerticalAlignment="Center"
+                                            Background="{Binding Domain, Converter={StaticResource DomainToBadgeBrushConverter}}">
+                                        <TextBlock Text="{Binding Domain}"
+                                                   FontSize="9" FontWeight="Bold"
+                                                   Foreground="White" />
+                                    </Border>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding DisplayName}"
+                                               VerticalAlignment="Center"
+                                               FontSize="12" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource ThemeTextPrimary}"
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="8,0,0,0" />
+
+                                    <Border Grid.Column="2"
+                                            IsVisible="{Binding !IsBoolean}"
+                                            CornerRadius="3" Padding="6,2"
+                                            VerticalAlignment="Center"
+                                            Background="{DynamicResource ThemeBgHover}">
+                                        <TextBlock Text="{Binding Value, Converter={StaticResource FloatToStringConverter}}"
+                                                   FontSize="11" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource ThemeAccent}"
+                                                   HorizontalAlignment="Right" />
+                                    </Border>
+
+                                    <ToggleSwitch Grid.Column="2"
+                                                  IsVisible="{Binding IsBoolean}"
+                                                  IsChecked="{Binding Value, Converter={StaticResource FloatToBoolConverter}, Mode=TwoWay}"
+                                                  VerticalAlignment="Center" />
+                                </Grid>
+
+                                <Grid ColumnDefinitions="Auto,*,Auto"
+                                      IsVisible="{Binding !IsBoolean}">
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding MinValue, Converter={StaticResource FloatToStringConverter}}"
+                                               FontSize="9"
+                                               Foreground="{DynamicResource ThemeTextMuted}"
+                                               VerticalAlignment="Center"
+                                               MinWidth="24" TextAlignment="Left" />
+                                    <Slider Grid.Column="1"
+                                            Minimum="{Binding MinValue}"
+                                            Maximum="{Binding MaxValue}"
+                                            Value="{Binding Value}"
+                                            TickFrequency="{Binding Step}"
+                                            VerticalAlignment="Center"
+                                            Margin="6,0" />
+                                    <TextBlock Grid.Column="2"
+                                               Text="{Binding MaxValue, Converter={StaticResource FloatToStringConverter}}"
+                                               FontSize="9"
+                                               Foreground="{DynamicResource ThemeTextMuted}"
+                                               VerticalAlignment="Center"
+                                               TextAlignment="Right"
+                                               MinWidth="24" />
+                                </Grid>
+
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+    </StackPanel>
+</UserControl>

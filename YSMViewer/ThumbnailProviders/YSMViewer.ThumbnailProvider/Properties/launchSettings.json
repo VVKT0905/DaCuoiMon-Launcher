@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "AttachExplorer": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Windows\\explorer.exe",
+      "commandLineArgs": "/separate"
+    }
+  }
+}

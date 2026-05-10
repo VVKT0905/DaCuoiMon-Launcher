@@ -1,0 +1,244 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:YSMViewer.ViewModels;assembly=YSMViewer"
+             xmlns:svg="clr-namespace:Avalonia.Svg.Skia;assembly=Svg.Controls.Skia.Avalonia"
+             xmlns:shared="clr-namespace:YSMViewer.Views.Shared;assembly=YSMViewer"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="YSMViewer.Browser.Views.BrowserMainView"
+             x:DataType="vm:MainViewModel"
+             DragDrop.AllowDrop="True">
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <UserControl.Resources>
+        <vm:NotificationIconConverter x:Key="NotificationIconConverter" />
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgButton}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextSecondary}" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="Button:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgHover}" />
+        </Style>
+        <Style Selector="Button:pressed">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgActive}" />
+        </Style>
+        <Style Selector="Button:disabled">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+        <Style Selector="Button.view-btn">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Width" Value="38" />
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
+        </Style>
+        <Style Selector="Button.view-btn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgHover}" />
+        </Style>
+        <Style Selector="ProgressBar">
+            <Setter Property="Foreground" Value="{DynamicResource ThemeAccentRed}" />
+            <Setter Property="Background" Value="{DynamicResource ThemeBorder}" />
+        </Style>
+        <Style Selector="Expander">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        <Style Selector="Expander /template/ ToggleButton#ExpanderHeader">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="12,10" />
+        </Style>
+        <Style Selector="Expander /template/ ToggleButton#ExpanderHeader:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgHover}" />
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+    <Grid RowDefinitions="Auto,*,Auto" Background="{DynamicResource ThemeBgViewport}">
+
+        <shared:ModelToolBar Grid.Row="0" DataContext="{Binding}" />
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" x:Name="BrowserMainContentGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="300" MinWidth="0" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Viewport -->
+            <Panel Grid.Column="0" x:Name="ViewportPanel">
+                <ContentControl Content="{Binding Renderer.View}" />
+
+                <!-- Browser limitation banner -->
+                <Border x:Name="BrowserBanner" IsVisible="True"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                        Background="#CC1b2a4e" Padding="10,8" Margin="0">
+                    <Grid>
+                        <TextBlock
+                            Text="&#x26A0; Web version uses WebGL rendering and does not support physical MoLang (ysm.first_order / ysm.second_order). Performance may vary by browser and device."
+                            FontSize="11" Foreground="#FFCC00"
+                            TextWrapping="Wrap" TextAlignment="Center"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Margin="24,0" />
+                        <Button Content="&#x2715;"
+                                Click="OnCloseBannerClick"
+                                Background="Transparent" Foreground="#FFCC00"
+                                FontSize="14" Padding="8,2" CornerRadius="3"
+                                HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- Loading overlay -->
+                <Border IsVisible="{Binding IsLoading}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Background="{DynamicResource ThemeBgViewport}" Opacity="0.85">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+                        <ProgressBar Width="200" Height="4" IsIndeterminate="True" />
+                        <TextBlock Text="{Binding StatusText}"
+                                   Foreground="{DynamicResource ThemeTextSecondary}"
+                                   FontSize="13" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Empty state overlay -->
+                <Border IsVisible="{Binding !HasModel}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        CornerRadius="16" Padding="48,40"
+                        Background="{DynamicResource ThemeBgSurface}">
+                    <StackPanel HorizontalAlignment="Center" Spacing="16">
+                        <TextBlock Text="YSMViewer" FontSize="36" FontWeight="Bold"
+                                   Foreground="{DynamicResource ThemeTextPrimary}"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding LocEmptyState}"
+                                   FontSize="15" Foreground="{DynamicResource ThemeTextSecondary}"
+                                   HorizontalAlignment="Center" />
+                        <Button Content="{Binding LocOpenFile}" Click="OnOpenButtonClick"
+                                HorizontalAlignment="Center"
+                                Background="{DynamicResource ThemeAccentRed}" Foreground="White"
+                                FontSize="14" Padding="24,10" CornerRadius="8" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Drag-and-drop overlay -->
+                <Border x:Name="DragOverlay"
+                        IsVisible="False"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Background="{DynamicResource ThemeBgSurface}"
+                        Opacity="0.92"
+                        CornerRadius="12" Margin="8"
+                        BorderBrush="{DynamicResource ThemeAccent}" BorderThickness="2">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+                        <TextBlock Text="{Binding LocDropHint}" FontSize="22" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource ThemeAccent}"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding LocDropHintExt}" FontSize="14"
+                                   Foreground="{DynamicResource ThemeTextSecondary}"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Error overlay -->
+                <Border IsVisible="{Binding HasError}"
+                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                        Margin="16" CornerRadius="10" Padding="20,16"
+                        MaxWidth="560"
+                        Background="{DynamicResource ThemeErrorBg}" Opacity="0.95">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{Binding LocErrorTitle}" FontWeight="Bold" FontSize="15"
+                                   Foreground="{DynamicResource ThemeErrorText}" />
+                        <ScrollViewer MaxHeight="140">
+                            <SelectableTextBlock Text="{Binding ErrorDetail}" FontSize="11"
+                                                  Foreground="{DynamicResource ThemeErrorText}" Opacity="0.8"
+                                                  TextWrapping="Wrap" />
+                        </ScrollViewer>
+                        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                            <Button Content="{Binding LocCopy}" Click="OnCopyErrorClick"
+                                    Background="{DynamicResource ThemeBgButton}"
+                                    Foreground="{DynamicResource ThemeTextSecondary}"
+                                    Padding="12,4" CornerRadius="4" FontSize="11" />
+                            <Button Content="{Binding LocDismiss}" Click="OnDismissErrorClick"
+                                    Background="{DynamicResource ThemeAccentRed}" Foreground="White"
+                                    Padding="14,4" CornerRadius="4" FontSize="11" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Button x:Name="MobileToolsButton"
+                        IsVisible="{Binding IsMobileView}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Margin="0,0,16,16"
+                        Padding="14,10"
+                        CornerRadius="18"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Background="{DynamicResource ThemeAccentRed}"
+                        Foreground="White"
+                        Click="OnBrowserToggleRightPanelClick">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="Tools" />
+                        <TextBlock Text="≡" FontSize="15" />
+                    </StackPanel>
+                </Button>
+
+
+            </Panel>
+
+            <!-- GridSplitter -->
+            <GridSplitter Grid.Column="1" Width="4"
+                          Background="Transparent"
+                          ResizeBehavior="PreviousAndNext"
+                          IsVisible="{Binding IsRightPanelVisible}" />
+
+            <!-- Side Panel -->
+            <Border x:Name="BrowserSidePanel"
+                    Grid.Column="2"
+                    Background="{DynamicResource ThemeBgSurface}"
+                    BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1,0,0,0"
+                    CornerRadius="0"
+                    IsVisible="{Binding IsRightPanelVisible}">
+                <shared:SidePanelContent DataContext="{Binding}" />
+            </Border>
+    </Grid>
+
+        <shared:ModelBottomBar Grid.Row="2" DataContext="{Binding}" />
+    </Grid>
+
+    <!-- Toast overlay -->
+    <ItemsControl ItemsSource="{Binding Notifications.Notifications}"
+                  HorizontalAlignment="Right" VerticalAlignment="Top"
+                  Margin="16,56,16,0" MaxWidth="380">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:NotificationViewModel">
+                <Border CornerRadius="8" Padding="12,8" Margin="0,0,0,8"
+                        Background="{DynamicResource ThemeBgElevated}"
+                        BorderBrush="{DynamicResource ThemeAccent}" BorderThickness="1">
+                    <Grid ColumnDefinitions="Auto,*">
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding Type, Converter={StaticResource NotificationIconConverter}}"
+                                   FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{Binding Message}" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource ThemeTextPrimary}" FontSize="12"
+                                   VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    </Panel>
+</UserControl>

@@ -1,0 +1,134 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:YSMViewer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="260" d:DesignHeight="400"
+             x:Class="YSMViewer.Views.FolderBrowserView"
+             x:DataType="vm:FolderBrowserViewModel">
+
+    <UserControl.Styles>
+        <Style Selector="ListBoxItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,1" />
+        </Style>
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ThemeBgHover}" />
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ThemeAnimSelected}" />
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+        <Style Selector="Button.sort-btn">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextMuted}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="10" />
+        </Style>
+    </UserControl.Styles>
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
+        <Button Grid.Row="0" Content="{Binding LocOpenFolder}"
+                Command="{Binding BrowseFolderCommand}"
+                IsEnabled="{Binding !IsScanning}"
+                HorizontalAlignment="Stretch"
+                Background="{DynamicResource ThemeAccentRed}" Foreground="White"
+                FontSize="13" Padding="12,7" CornerRadius="6" FontWeight="SemiBold" />
+
+        <Border Grid.Row="1" IsVisible="{Binding HasFolder}" Margin="0,8,0,0"
+                Background="{DynamicResource ThemeBgElevated}" CornerRadius="4" Padding="8,4">
+            <StackPanel Spacing="2">
+                <TextBlock Text="{Binding FolderName}"
+                           Foreground="{DynamicResource ThemeTextPrimary}" FontSize="12"
+                           FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{Binding FolderPath}"
+                           Foreground="{DynamicResource ThemeTextMuted}" FontSize="10"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </Border>
+
+        <!-- Search -->
+        <Border Grid.Row="2" IsVisible="{Binding HasFolder}" Margin="0,6,0,0"
+                Background="{DynamicResource ThemeBgElevated}" CornerRadius="4" Padding="4">
+            <TextBox Text="{Binding SearchText}"
+                     PlaceholderText="{Binding LocSearchPrompt}"
+                     Background="Transparent" BorderThickness="0"
+                     Foreground="{DynamicResource ThemeTextPrimary}"
+                     FontSize="12" Padding="4,5" VerticalContentAlignment="Center" />
+        </Border>
+
+        <Grid Grid.Row="3" IsVisible="{Binding IsScanning}"
+              ColumnDefinitions="*,Auto" Margin="0,6,0,0"
+              VerticalAlignment="Center">
+            <ProgressBar Height="4" Value="{Binding ScanProgress}" Maximum="1.0"
+                         VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{Binding ScanProgressText}"
+                       Foreground="{DynamicResource ThemeTextMuted}" FontSize="10"
+                       VerticalAlignment="Center" Margin="6,0,0,0" />
+        </Grid>
+
+        <!-- Column headers + list -->
+        <Grid Grid.Row="4" RowDefinitions="Auto,*" Margin="0,4,0,0"
+              IsVisible="{Binding HasFolder}">
+            <!-- Headers -->
+            <Border Background="{DynamicResource ThemeBgElevated}" CornerRadius="4,4,0,0"
+                    Padding="4,3">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Button Classes="sort-btn"
+                            HorizontalAlignment="Left"
+                            Command="{Binding ToggleSortCommand}"
+                            CommandParameter="Name">
+                        <TextBlock Text="{Binding LocName}" />
+                    </Button>
+                    <Button Grid.Column="1" Classes="sort-btn"
+                            Command="{Binding ToggleSortCommand}"
+                            CommandParameter="Complexity">
+                        <TextBlock Text="{Binding LocComplexityCol}" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <ListBox Grid.Row="1"
+                     ItemsSource="{Binding FilteredFiles}"
+                     SelectedItem="{Binding SelectedFile}"
+                     Background="Transparent" BorderThickness="0"
+                     Foreground="{DynamicResource ThemeTextPrimary}"
+                     DoubleTapped="OnFileDoubleTapped">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:YsmFileItemViewModel">
+                        <Border CornerRadius="4" Padding="6,4"
+                                Background="{DynamicResource ThemeBgElevated}">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource ThemeTextPrimary}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding RelativePath}" FontSize="10"
+                                               Foreground="{DynamicResource ThemeTextMuted}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <Border Grid.Column="1" CornerRadius="3" Padding="5,2"
+                                        VerticalAlignment="Center" Margin="0,0,8,0"
+                                        Background="{Binding ComplexityColor}">
+                                    <TextBlock Text="{Binding ComplexityText}" FontSize="10"
+                                               Foreground="White" FontWeight="SemiBold" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <TextBlock Grid.Row="5" IsVisible="{Binding !HasFolder}"
+                   Text="{Binding LocEmptyFolder}"
+                   Foreground="{DynamicResource ThemeTextMuted}" FontSize="11"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,24"
+                   TextWrapping="Wrap" />
+    </Grid>
+</UserControl>

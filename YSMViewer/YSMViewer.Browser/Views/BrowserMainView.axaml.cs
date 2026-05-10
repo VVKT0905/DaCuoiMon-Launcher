@@ -1,0 +1,316 @@
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Threading;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
+using Avalonia.Platform.Storage;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Runtime.Versioning;
+using YSMViewer.Rendering;
+using YSMViewer.Rendering.ThreeJs;
+using YSMViewer.Services;
+using YSMViewer.ViewModels;
+
+namespace YSMViewer.Browser.Views;
+
+[SupportedOSPlatform("browser")]
+public partial class BrowserMainView : UserControl
+{
+    private static readonly ILogger Logger = YsmLog.For<BrowserMainView>();
+    private static ThemeService ThemeSvc => App.Services.GetRequiredService<ThemeService>();
+    private double _rightPanelSavedWidth = 300;
+    private const double MobileBreakpoint = 768;
+
+    public BrowserMainView()
+    {
+        InitializeComponent();
+        Loaded += OnLoaded;
+        SizeChanged += OnSizeChanged;
+
+        DragDrop.AddDropHandler(this, OnDrop);
+        DragDrop.AddDragOverHandler(this, OnDragOverHandler);
+        DragDrop.AddDragEnterHandler(this, OnDragEnterHandler);
+        DragDrop.AddDragLeaveHandler(this, OnDragLeaveHandler);
+
+        ThreeJsInterop.RestoreButtonClicked += OnRestoreButtonFromHtml;
+        ThreeJsInterop.AndroidFileLoaded += OnAndroidFileLoaded;
+        Unloaded += OnUnloaded;
+
+        ThemeSvc.ModeChanged += OnThemeModeChanged;
+    }
+
+    private void OnUnloaded(object? sender, RoutedEventArgs e)
+    {
+        ThreeJsInterop.RestoreButtonClicked -= OnRestoreButtonFromHtml;
+        ThreeJsInterop.AndroidFileLoaded -= OnAndroidFileLoaded;
+        ThemeSvc.ModeChanged -= OnThemeModeChanged;
+    }
+
+    private void OnThemeModeChanged(AppThemeMode mode)
+    {
+        UpdateSceneAppearance();
+    }
+
+    private async void OnOpenButtonClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainViewModel vm) return;
+        if (vm.TryOpenPlatformFilePickerAsync is not null && await vm.TryOpenPlatformFilePickerAsync())
+            return;
+
+        var topLevel = TopLevel.GetTopLevel(this);
+        if (topLevel?.StorageProvider is not { } storage) return;
+        var files = await storage.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Open YSM Model",
+            AllowMultiple = false,
+            FileTypeFilter = [new FilePickerFileType("YSM/ZIP Models")
+            {
+                Patterns = ["*.ysm", "*.zip"],
+                MimeTypes = ["application/vnd.ysm.model+encrypted", "application/zip", "application/x-zip-compressed"],
+            }],
+        });
+        if (files is not { Count: > 0 }) return;
+        await using var stream = await files[0].OpenReadAsync();
+        using var ms = new System.IO.MemoryStream();
+        await stream.CopyToAsync(ms);
+        await vm.LoadFromBytesAsync(ms.ToArray());
+    }
+
+    private Task OnAndroidFileLoaded(byte[] data)
+    {
+        var completion = new TaskCompletionSource();
+        Dispatcher.UIThread.Post(async () =>
+        {
+            try
+            {
+                if (DataContext is MainViewModel vm)
+                    await vm.LoadFromBytesAsync(data);
+                completion.SetResult();
+            }
+            catch (Exception ex)
+            {
+                completion.SetException(ex);
+            }
+        });
+        return completion.Task;
+    }
+
+    private void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        UpdateSceneAppearance();
+        if (DataContext is MainViewModel vm)
+        {
+            vm.TryOpenPlatformFilePickerAsync = TryOpenAndroidFilePicker;
+            UpdateMobileState();
+            SyncButtonVisibility();
+            _ = vm.LoadStartupFileIfNeeded();
+        }
+    }
+
+    private Task<bool> TryOpenAndroidFilePicker()
+    {
+        try
+        {
+            return Task.FromResult(ThreeJsInterop.OpenAndroidFilePicker());
+        }
+        catch (Exception ex)
+        {
+            Logger.LogDebug(ex, "Failed to open Android file picker");
+            return Task.FromResult(false);
+        }
+    }
+
+    private void UpdateSceneAppearance()
+    {
+        var rgba = ThemeSvc.GetViewportBackgroundColor();
+        if (DataContext is MainViewModel vm)
+            vm.Renderer.SetTheme(new RenderTheme(rgba[1], rgba[2], rgba[3], rgba[0],
+                ThemeSvc.IsDarkTheme()));
+    }
+
+    private void SyncButtonVisibility()
+    {
+        if (DataContext is not MainViewModel vm) return;
+        try
+        {
+            if (vm.IsRightPanelVisible)
+                ThreeJsInterop.HideRestoreButton();
+            else
+                ThreeJsInterop.ShowRestoreButton();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogDebug(ex, "Failed to sync restore button visibility");
+        }
+    }
+
+    private void OnSizeChanged(object? sender, SizeChangedEventArgs e)
+    {
+        UpdateMobileState();
+    }
+
+    private void UpdateMobileState()
+    {
+        if (DataContext is not MainViewModel vm) return;
+
+        var width = Bounds.Width;
+        var isMobile = width > 0 && width < MobileBreakpoint;
+        if (isMobile != vm.IsMobileView)
+        {
+            vm.IsMobileView = isMobile;
+            if (isMobile)
+            {
+                vm.IsRightPanelVisible = false;
+            }
+        }
+        ApplyResponsiveLayout(vm);
+        SyncButtonVisibility();
+    }
+
+    private void ApplyResponsiveLayout(MainViewModel vm)
+    {
+        if (BrowserMainContentGrid.ColumnDefinitions.Count <= 2) return;
+
+        var splitterColumn = BrowserMainContentGrid.ColumnDefinitions[1];
+        var panelColumn = BrowserMainContentGrid.ColumnDefinitions[2];
+
+        if (vm.IsMobileView)
+        {
+            splitterColumn.Width = new GridLength(0);
+            panelColumn.Width = new GridLength(0);
+            Grid.SetColumn(BrowserSidePanel, 0);
+            Grid.SetColumnSpan(BrowserSidePanel, 3);
+            BrowserSidePanel.Margin = new Thickness(10);
+            BrowserSidePanel.CornerRadius = new CornerRadius(16);
+            BrowserSidePanel.BorderThickness = new Thickness(1);
+            BrowserSidePanel.VerticalAlignment = VerticalAlignment.Stretch;
+            BrowserSidePanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+            BrowserSidePanel.MaxHeight = Math.Max(0, Bounds.Height - 20);
+            BrowserSidePanel.SetValue(Panel.ZIndexProperty, 20);
+            return;
+        }
+
+        splitterColumn.Width = new GridLength(4);
+        panelColumn.Width = vm.IsRightPanelVisible ? new GridLength(_rightPanelSavedWidth) : new GridLength(0);
+        Grid.SetColumn(BrowserSidePanel, 2);
+        Grid.SetColumnSpan(BrowserSidePanel, 1);
+        BrowserSidePanel.Margin = new Thickness(0);
+        BrowserSidePanel.CornerRadius = new CornerRadius(0);
+        BrowserSidePanel.BorderThickness = new Thickness(1, 0, 0, 0);
+        BrowserSidePanel.VerticalAlignment = VerticalAlignment.Stretch;
+        BrowserSidePanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+        BrowserSidePanel.MaxHeight = double.PositiveInfinity;
+        BrowserSidePanel.SetValue(Panel.ZIndexProperty, 0);
+    }
+
+    private async void OnDrop(object? sender, DragEventArgs e)
+    {
+        e.Handled = true;
+
+        if (DataContext is not MainViewModel vm) return;
+        if (!e.DataTransfer.Formats.Contains(DataFormat.File)) return;
+
+        var files = e.DataTransfer.TryGetFiles();
+        if (files is null) return;
+
+        foreach (var file in files)
+        {
+            if (file is not IStorageFile storageFile) continue;
+            try
+            {
+                await using var stream = await storageFile.OpenReadAsync();
+                using var ms = new System.IO.MemoryStream();
+                await stream.CopyToAsync(ms);
+                await vm.LoadFromBytesAsync(ms.ToArray());
+                return;
+            }
+            catch (Exception ex) { vm.SetError(ex); }
+        }
+    }
+
+    private void OnDragOverHandler(object? sender, DragEventArgs e)
+    {
+        if (DataContext is MainViewModel vm && vm.IsLoading)
+        {
+            e.DragEffects = DragDropEffects.None;
+            e.Handled = true;
+            return;
+        }
+
+        e.DragEffects = e.DataTransfer.Formats.Contains(DataFormat.File)
+            ? DragDropEffects.Copy : DragDropEffects.None;
+        e.Handled = true;
+    }
+
+    private void OnDragEnterHandler(object? sender, DragEventArgs e)
+    {
+        if (DataContext is MainViewModel vm && vm.IsLoading) return;
+        if (e.DataTransfer.Formats.Contains(DataFormat.File))
+        {
+            var overlay = this.FindControl<Border>("DragOverlay");
+            overlay?.IsVisible = true;
+        }
+    }
+
+    private void OnDragLeaveHandler(object? sender, DragEventArgs e)
+    {
+        var overlay = this.FindControl<Border>("DragOverlay");
+        overlay?.IsVisible = false;
+    }
+
+    private void OnDismissErrorClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm)
+            vm.HasError = false;
+    }
+
+    private async void OnCopyErrorClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm)
+        {
+            var topLevel = TopLevel.GetTopLevel(this);
+            if (topLevel?.Clipboard is not null)
+            {
+                var data = new DataTransfer();
+                data.Add(DataTransferItem.CreateText(vm.ErrorDetail));
+                await topLevel.Clipboard.SetDataAsync(data);
+                vm.Notifications.Show("Copied to clipboard", NotificationType.Info, 2000);
+            }
+        }
+    }
+
+    private void OnCloseBannerClick(object? sender, RoutedEventArgs e)
+    {
+        var banner = this.FindControl<Border>("BrowserBanner");
+        banner?.IsVisible = false;
+    }
+
+    private void OnBrowserToggleRightPanelClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainViewModel vm) return;
+
+        var col = BrowserMainContentGrid.ColumnDefinitions[2];
+        if (vm.IsRightPanelVisible)
+        {
+            if (col.Width.IsAbsolute)
+                _rightPanelSavedWidth = col.Width.Value;
+            col.Width = new GridLength(0);
+            vm.IsRightPanelVisible = false;
+        }
+        else
+        {
+            col.Width = new GridLength(_rightPanelSavedWidth);
+            vm.IsRightPanelVisible = true;
+        }
+        ApplyResponsiveLayout(vm);
+        SyncButtonVisibility();
+    }
+
+    private void OnRestoreButtonFromHtml()
+    {
+        OnBrowserToggleRightPanelClick(null, null!);
+    }
+
+}

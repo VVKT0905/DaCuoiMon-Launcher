@@ -1,0 +1,322 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Test Core
+        run: dotnet test YSMViewer.Core.Tests/YSMViewer.Core.Tests.csproj --nologo --configuration Release
+
+      - name: Build Desktop
+        run: dotnet build YSMViewer.Desktop -c Release
+
+      - name: Build Thumbnail Renderer
+        run: dotnet build ThumbnailProviders/YSMViewer.ThumbnailProvider -c Release
+
+      - name: Install wasm-tools workload
+        run: dotnet workload install wasm-tools
+
+      - name: Build Browser
+        run: dotnet build YSMViewer.Browser -c Release
+
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+
+      - name: Install Android workloads
+        run: dotnet workload install android wasm-tools
+
+      - name: Build Android
+        run: dotnet publish YSMViewer.Android -c Release -f net10.0-android
+
+  publish-desktop:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - rid: win-x64
+            os: windows-latest
+          - rid: linux-x64
+            os: ubuntu-latest
+          - rid: osx-arm64
+            os: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+
+      - name: Publish Desktop (${{ matrix.rid }})
+        run: dotnet publish YSMViewer.Desktop -c Release -r ${{ matrix.rid }} -o publish/desktop-${{ matrix.rid }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: desktop-${{ matrix.rid }}
+          path: publish/desktop-${{ matrix.rid }}/
+
+  publish-thumbnail-win:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+
+      - name: Publish C# NativeAOT rendering DLL
+        run: dotnet publish ThumbnailProviders/YSMViewer.ThumbnailProvider -c Release -r win-x64 -o publish/thumbnail-win
+
+      - name: Setup MSVC
+        uses: TheMrMilchmann/setup-msvc-dev@v4
+        with:
+          arch: x64
+
+      - name: Build C++ COM wrapper DLL
+        run: |
+          msbuild ThumbnailProviders\YSMViewer.ThumbnailProvider.Win\YSMViewer.ThumbnailProvider.Win.vcxproj /p:Configuration=Release /p:OutDir="${{ github.workspace }}\publish\thumbnail-win\" /p:IntDir="${{ runner.temp }}\thumbnail-win-obj\" /nologo
+
+      - name: Copy registration scripts
+        shell: pwsh
+        run: |
+          Copy-Item ThumbnailProviders/YSMViewer.ThumbnailProvider.Win/install.ps1 publish/thumbnail-win/
+          Copy-Item ThumbnailProviders/YSMViewer.ThumbnailProvider.Win/uninstall.ps1 publish/thumbnail-win/
+
+      - name: Clean up unnecessary build artifacts
+        shell: cmd
+        run: |
+          del /f /q publish\thumbnail-win\*.exp publish\thumbnail-win\*.lib publish\thumbnail-win\*.ilk publish\thumbnail-win\*.pdb 2>nul || ver>nul
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: thumbnail-win-x64
+          path: publish/thumbnail-win/
+
+  publish-thumbnail-xdg:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+
+      - name: Publish NativeAOT rendering library
+        run: dotnet publish ThumbnailProviders/YSMViewer.ThumbnailProvider -c Release -r linux-x64 -o publish/thumbnail-xdg
+
+      - name: Build XDG thumbnailer CLI
+        run: |
+          make -C ThumbnailProviders/YSMViewer.ThumbnailProvider.XDG BUILD_DIR="${{ github.workspace }}/publish/thumbnail-xdg"
+
+      - name: Copy XDG metadata and scripts
+        run: |
+          cp ThumbnailProviders/YSMViewer.ThumbnailProvider.XDG/ysm.thumbnailer.in publish/thumbnail-xdg/
+          cp ThumbnailProviders/YSMViewer.ThumbnailProvider.XDG/application-vnd-ysm-model-encrypted.xml publish/thumbnail-xdg/
+          cp ThumbnailProviders/YSMViewer.ThumbnailProvider.XDG/install.sh publish/thumbnail-xdg/
+          cp ThumbnailProviders/YSMViewer.ThumbnailProvider.XDG/uninstall.sh publish/thumbnail-xdg/
+          chmod +x publish/thumbnail-xdg/install.sh publish/thumbnail-xdg/uninstall.sh publish/thumbnail-xdg/ysm-thumbnailer
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: thumbnail-linux-x64-xdg
+          path: publish/thumbnail-xdg/
+
+  publish-thumbnail-osx:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+
+      - name: Publish NativeAOT rendering library
+        run: dotnet publish ThumbnailProviders/YSMViewer.ThumbnailProvider -c Release -r osx-arm64 -o publish/thumbnail-osx/native
+
+      - name: Build Quick Look generator
+        run: |
+          native_lib="${{ github.workspace }}/publish/thumbnail-osx/native/libYSMViewer.ThumbnailProvider.dylib"
+          if [ ! -f "$native_lib" ]; then native_lib="${{ github.workspace }}/publish/thumbnail-osx/native/YSMViewer.ThumbnailProvider.dylib"; fi
+          make -C ThumbnailProviders/YSMViewer.ThumbnailProvider.OSX BUILD_DIR="${{ github.workspace }}/publish/thumbnail-osx" NATIVE_LIB="$native_lib"
+          cp ThumbnailProviders/YSMViewer.ThumbnailProvider.OSX/install.sh publish/thumbnail-osx/
+          cp ThumbnailProviders/YSMViewer.ThumbnailProvider.OSX/uninstall.sh publish/thumbnail-osx/
+          chmod +x publish/thumbnail-osx/install.sh publish/thumbnail-osx/uninstall.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: thumbnail-osx-arm64
+          path: publish/thumbnail-osx/
+
+  publish-android:
+    needs: build-android
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install Android workloads
+        run: dotnet workload install android wasm-tools
+
+      - name: Publish Android
+        run: dotnet publish YSMViewer.Android -c Release -f net10.0-android
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-arm64
+          path: YSMViewer.Android/bin/Release/net10.0-android/android-arm64/*Signed.apk
+
+  release:
+    needs: [publish-desktop, publish-thumbnail-win, publish-thumbnail-xdg, publish-thumbnail-osx, publish-android]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+
+      - name: Install wasm-tools
+        run: dotnet workload install wasm-tools
+
+      - name: Publish Browser
+        run: dotnet publish YSMViewer.Browser -c Release -o publish/browser
+
+      - name: Download desktop (win-x64)
+        uses: actions/download-artifact@v7
+        with:
+          name: desktop-win-x64
+          path: publish/desktop/win-x64
+
+      - name: Download desktop (linux-x64)
+        uses: actions/download-artifact@v7
+        with:
+          name: desktop-linux-x64
+          path: publish/desktop/linux-x64
+
+      - name: Download desktop (osx-arm64)
+        uses: actions/download-artifact@v7
+        with:
+          name: desktop-osx-arm64
+          path: publish/desktop/osx-arm64
+
+      - name: Download Windows thumbnail provider
+        uses: actions/download-artifact@v7
+        with:
+          name: thumbnail-win-x64
+          path: publish/thumbnail/win-x64
+
+      - name: Download XDG thumbnail provider
+        uses: actions/download-artifact@v7
+        with:
+          name: thumbnail-linux-x64-xdg
+          path: publish/thumbnail/linux-x64
+
+      - name: Download macOS thumbnail provider
+        uses: actions/download-artifact@v7
+        with:
+          name: thumbnail-osx-arm64
+          path: publish/thumbnail/osx-arm64
+
+      - name: Download Android
+        uses: actions/download-artifact@v7
+        with:
+          name: android-arm64
+          path: publish/android
+
+      - name: Package desktop assets
+        run: |
+          cd publish/desktop
+          zip -r ../YSMViewer-win-x64.zip win-x64/
+          zip -r ../YSMViewer-linux-x64.zip linux-x64/
+          zip -r ../YSMViewer-osx-arm64.zip osx-arm64/
+
+      - name: Add .nojekyll for GitHub Pages
+        run: touch publish/browser/wwwroot/.nojekyll
+
+      - name: Package browser assets
+        run: |
+          cd publish/browser
+          zip -r ../YSMViewer-Browser.zip .
+
+      - name: Package thumbnail providers
+        run: |
+          cd publish/thumbnail
+          zip -r ../YSMViewer-ThumbnailProvider-win-x64.zip win-x64/
+          zip -r ../YSMViewer-ThumbnailProvider-linux-x64-xdg.zip linux-x64/
+          zip -r ../YSMViewer-ThumbnailProvider-osx-arm64.zip osx-arm64/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            publish/YSMViewer-win-x64.zip
+            publish/YSMViewer-linux-x64.zip
+            publish/YSMViewer-osx-arm64.zip
+            publish/YSMViewer-Browser.zip
+            publish/YSMViewer-ThumbnailProvider-win-x64.zip
+            publish/YSMViewer-ThumbnailProvider-linux-x64-xdg.zip
+            publish/YSMViewer-ThumbnailProvider-osx-arm64.zip
+            publish/android/*Signed.apk
+          generate_release_notes: true
+
+      - name: Deploy to webpage branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: publish/browser/wwwroot
+          publish_branch: webpage
+          force_orphan: true
