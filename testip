@@ -1,0 +1,773 @@
+﻿{
+    "launcher_version":  "2.0.0",
+    "launcher_download_url":  "https://github.com/VVKT0905/AIS-POS-Smart-Supermarket/releases/latest/download/CobblemonLauncher.exe",
+    "server_ip":  "apex.pikamc.vn:25059",
+    "additional_mods":  [
+                            {
+                                "name":  "Kazeran Eeveelutions",
+                                "slug":  "kazeran-eeveelutions",
+                                "fileName":  "kazeran-eeveelutions-1.5.1.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/l5mIjxVT/versions/lpZfpuhD/kazeran-eeveelutions-1.5.1.jar",
+                                "expectedSize":  3264975,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Cobblemon Paleontology",
+                                "slug":  "cobblemon-paleontology",
+                                "fileName":  "cobblemon-paleontologist-0.7.1-Beta.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/tbBs6vYE/versions/EwdolkEl/cobblemon-paleontologist-0.7.1-Beta.jar",
+                                "expectedSize":  223631,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Rillaboom Wood Variants",
+                                "slug":  "rillaboom-wood-variant-cosmetics-cobblemon",
+                                "fileName":  "Wood Cosmetic Rillaboom.zip",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/eThFuBO4/versions/RPZco1mt/Wood%20Cosmetic%20Rillaboom.zip",
+                                "expectedSize":  137766,
+                                "isDatapack":  true,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Cobblemon Pokestops",
+                                "slug":  "cobblemon-pokestops",
+                                "fileName":  "cobblemon-pokestops-fabric-1.9.2.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/3clcaaoH/versions/oUw7DLvH/cobblemon-pokestops-fabric-1.9.2.jar",
+                                "expectedSize":  466367,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Cobblemon Expeditions",
+                                "slug":  "cobblemon_expeditions",
+                                "fileName":  "cobblemon-expeditions-fabric-1.8.0.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/HtRy1shF/versions/47CZXRC9/cobblemon-expeditions-fabric-1.8.0.jar",
+                                "expectedSize":  1031127,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "W\u0027s Angry Alphas",
+                                "slug":  "ws-angry-alphas",
+                                "fileName":  "W\u0027s Angry Alphas.zip",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/ZMIGaD0V/versions/9chEWhXr/W%27s%20Angry%20Alphas.zip",
+                                "expectedSize":  4271,
+                                "isDatapack":  true,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Pokebelt",
+                                "slug":  "pokebelt-cobblemon",
+                                "fileName":  "pokebelt-0.1.0.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/kgst0RnJ/versions/6BCT9c6x/pokebelt-0.1.0.jar",
+                                "expectedSize":  1182692,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Cobblemon Trainers",
+                                "slug":  "cobblemon-trainers",
+                                "fileName":  "a-0.5.zip",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/VNLzxj2I/versions/q5Wx5WLY/a-0.5.zip",
+                                "expectedSize":  303376,
+                                "isDatapack":  true,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Cobblemon Trainer Pass",
+                                "slug":  "trainer-pass",
+                                "fileName":  "Cobblemon-Trainer-Pass-Universal-1.3.5+universal.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/Zly5Pzt2/versions/plwu7Uky/Cobblemon-Trainer-Pass-Universal-1.3.5%2Buniversal.jar",
+                                "expectedSize":  774197,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "GeckoLib (Fabric 1.21.1)",
+                                "slug":  "geckolib",
+                                "fileName":  "geckolib-fabric-1.21.1-4.9.3.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/8BmcQJ2H/versions/tmxM7U4W/geckolib-fabric-1.21.1-4.9.3.jar",
+                                "expectedSize":  664463,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Matthiesen Core",
+                                "slug":  "matthiesen-core",
+                                "fileName":  "matthiesen-core-fabric-1.2.10.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/sqEZOmQo/versions/azvkmoed/matthiesen-core-fabric-1.2.10.jar",
+                                "expectedSize":  516936,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Forge Config API Port",
+                                "slug":  "forge-config-api-port",
+                                "fileName":  "ForgeConfigAPIPort-v21.1.6-1.21.1-Fabric.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/ohNO6lps/versions/N5qzq0XV/ForgeConfigAPIPort-v21.1.6-1.21.1-Fabric.jar",
+                                "expectedSize":  633065,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Accessories",
+                                "slug":  "accessories",
+                                "fileName":  "accessories-fabric-1.1.0-beta.53+1.21.1.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/jtmvUHXj/versions/Xlt4eWBe/accessories-fabric-1.1.0-beta.53%2B1.21.1.jar",
+                                "expectedSize":  1095802,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Lavender",
+                                "slug":  "lavender",
+                                "fileName":  "lavender-0.1.15+1.21.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/D5h9NKNI/versions/gdB0WW0x/lavender-0.1.15%2B1.21.jar",
+                                "expectedSize":  539500,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Recolourful Containers GUI",
+                                "slug":  "recolourful-containers-gui",
+                                "fileName":  "Recolourful Containers 3.1.3 (1.19.4+).zip",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/lewweaHO/versions/Req8KKc8/Recolourful%20Containers%203.1.3%20%281.19.4%2B%29.zip",
+                                "expectedSize":  2104807,
+                                "isDatapack":  false,
+                                "isResourcepack":  true
+                            },
+                            {
+                                "name":  "OptiGUI",
+                                "slug":  "optigui",
+                                "fileName":  "optigui-2.3.0-beta.9+1.21.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/JuksLGBQ/versions/npnKNaoI/optigui-2.3.0-beta.9%2B1.21.jar",
+                                "expectedSize":  614152,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Fancy Crops",
+                                "slug":  "fancy-crops",
+                                "fileName":  "Fancy Crops v1.3.zip",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/UGEVQ6t9/versions/ZJEBZjg6/Fancy%20Crops%20v1.3.zip",
+                                "expectedSize":  92779,
+                                "isDatapack":  false,
+                                "isResourcepack":  true
+                            },
+                            {
+                                "name":  "Yes Steve Model",
+                                "slug":  "yes-steve-model",
+                                "fileName":  "ysm-2.6.5-fabric+mc1.21.1-release.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/86xjpqqS/versions/eGOUtHWJ/ysm-2.6.5-fabric%2Bmc1.21.1-release.jar",
+                                "expectedSize":  62831087,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Waystones",
+                                "slug":  "waystones",
+                                "fileName":  "waystones-fabric-1.21.1-21.1.46.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/LOpKHB2A/versions/nSAwjAk4/waystones-fabric-1.21.1-21.1.46.jar",
+                                "expectedSize":  1248666,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Traveler\u0027s Backpack",
+                                "slug":  "travelersbackpack",
+                                "fileName":  "travelersbackpack-fabric-1.21.1-10.1.39.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/rlloIFEV/versions/npKsvQvE/travelersbackpack-fabric-1.21.1-10.1.39.jar",
+                                "expectedSize":  1508904,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Cardinal Components API",
+                                "slug":  "cardinal-components-api",
+                                "fileName":  "cardinal-components-api-6.1.3.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/K01OU20C/versions/nLsCe2VD/cardinal-components-api-6.1.3.jar",
+                                "expectedSize":  229645,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Cobblemon: Mega Showdown",
+                                "slug":  "cobblemon-mega-showdown",
+                                "fileName":  "mega_showdown-fabric-1.2.0+1.8.1+1.21.1-release.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/SszvX85I/versions/TKdAixuR/mega_showdown-fabric-1.2.0%2B1.8.1%2B1.21.1-release.jar",
+                                "expectedSize":  20152218,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Cobblemon: Legendary Monuments",
+                                "slug":  "legendary-monuments",
+                                "fileName":  "legendarymonuments-fabric-1.21.1-8.1-Love_for_All.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/m6RyHSbV/versions/F6Ub0Gga/legendarymonuments-fabric-1.21.1-8.1-Love_for_All.jar",
+                                "expectedSize":  16611506,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Cobblemon Raid Dens",
+                                "slug":  "cobblemonraiddens",
+                                "fileName":  "cobblemonraiddens-fabric-0.12.1+1.21.1.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/GebWh45l/versions/vubpu1Xb/cobblemonraiddens-fabric-0.12.1%2B1.21.1.jar",
+                                "expectedSize":  2752132,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Navas ZA Megas",
+                                "slug":  "navas-zamega",
+                                "fileName":  "zamega-fabric-1.8.1+1.8.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/2V1Y86sc/versions/AkUZt99V/zamega-fabric-1.8.1%2B1.8.jar",
+                                "expectedSize":  899567,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "oωo (owo-lib)",
+                                "slug":  "owo-lib",
+                                "fileName":  "owo-lib-0.13.0-alpha.15+1.21.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/ccKDOlHs/versions/m3XmDd8j/owo-lib-0.13.0-alpha.15%2B1.21.jar",
+                                "expectedSize":  1963544,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Lithostitched",
+                                "slug":  "lithostitched",
+                                "fileName":  "lithostitched-1.8.0-fabric-21.1.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/XaDC71GB/versions/eN30OQaU/lithostitched-1.8.0-fabric-21.1.jar",
+                                "expectedSize":  971957,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Chipped",
+                                "slug":  "chipped",
+                                "fileName":  "chipped-fabric-1.21.1-4.0.2.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/BAscRYKm/versions/6h2mVZcb/chipped-fabric-1.21.1-4.0.2.jar",
+                                "expectedSize":  15016830,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Resourceful Lib",
+                                "slug":  "resourceful-lib",
+                                "fileName":  "resourcefullib-fabric-1.21-3.0.12.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/G1hIVOrD/versions/Hf91FuVF/resourcefullib-fabric-1.21-3.0.12.jar",
+                                "expectedSize":  485586,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Athena",
+                                "slug":  "athena-ctm",
+                                "fileName":  "athena-fabric-1.21.1-4.0.6.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/b1ZV3DIJ/versions/JfyYsWKP/athena-fabric-1.21.1-4.0.6.jar",
+                                "expectedSize":  88425,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            }
+                        ],
+    "skins":  [
+                  {
+                      "id":  "amano_lilysa",
+                      "name":  "Amano Lilysa",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "amano_lilysa.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "canari__pkmn_trainer_",
+                      "name":  "Canari (Pkmn Trainer)",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "canari_(pkmn_trainer).ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "fallenshadow_v2_1",
+                      "name":  "Fallenshadow",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "fallenshadow v2.1.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "fuwi",
+                      "name":  "Fuwi",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "fuwi.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "gi_furina",
+                      "name":  "Genshin Furina",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "GI_Furina.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "gi_ganyu_0",
+                      "name":  "Genshin Ganyu 0",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "GI_Ganyu_0.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "gi_hutao",
+                      "name":  "Genshin Hutao",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "GI_Hutao.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "hachiroku",
+                      "name":  "Hachiroku",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "hachiroku.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "hololive_watame",
+                      "name":  "Hololive Watame",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "hololive_watame.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "koishi_komeiji",
+                      "name":  "Koishi Komeiji",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "koishi_komeiji.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "komakaze_rabu",
+                      "name":  "Komakaze Rabu",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "Komakaze Rabu.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "malenia",
+                      "name":  "Malenia",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "malenia.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "mcdo_hatsune_miku_nkrmc",
+                      "name":  "Mcdo Hatsune Miku Nkrmc",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "mcdo_hatsune_miku_nkrmc.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "mc_cashier",
+                      "name":  "Mc Cashier",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "mc_cashier.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "mesugaki_regent",
+                      "name":  "Mesugaki Regent",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "mesugaki_regent.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "misc_1_alex",
+                      "name":  "Alex",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "misc_1_alex.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "misc_2_steve",
+                      "name":  "Steve",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "misc_2_steve.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "misc_3_default_boy",
+                      "name":  "Default Boy",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "misc_3_default_boy.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "misc_4_default_controllers",
+                      "name":  "Default Controllers",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "misc_4_default_controllers.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "mocha_kaneko",
+                      "name":  "Mocha Kaneko",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "Mocha Kaneko.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "muu_muyu_small",
+                      "name":  "Muu Muyu Small",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "muu_muyu_small.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "muu_muyu_tall",
+                      "name":  "Muu Muyu Tall",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "muu_muyu_tall.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "netcore",
+                      "name":  "Netcore",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "netcore.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "neuro_sama",
+                      "name":  "Neuro Sama",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "neuro_sama.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "nikke_crown",
+                      "name":  "Nikke Crown",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "nikke_crown.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "pekomama",
+                      "name":  "Pekomama",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "pekomama.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "pippa_pipkin2",
+                      "name":  "Pippa Pipkin2",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "pippa_pipkin2.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "pokemon_canari_v1",
+                      "name":  "Pokemon Canari",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "Pokemon_Canari_v1.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "pokemon_groudon",
+                      "name":  "Pokemon Groudon",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "Pokemon_Groudon.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "pokemon_lillie",
+                      "name":  "Pokemon Lillie",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "Pokemon_Lillie.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "pwned_darwin",
+                      "name":  "Pwned Darwin",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "pwned_darwin.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "pwned_red",
+                      "name":  "Pwned Red",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "pwned_red.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "pwned_valeri_0_3",
+                      "name":  "Pwned Valeri 0.3",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "pwned_valeri_0.3.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "reverse_v1",
+                      "name":  "Reverse",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "reverse v1.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "tachibana_mikari",
+                      "name":  "Tachibana Mikari",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "tachibana_mikari.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "tako_chan",
+                      "name":  "Tako Chan",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "tako chan.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "touhou_cirno",
+                      "name":  "Touhou Cirno",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "Touhou_Cirno.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "touhou_flandre_1",
+                      "name":  "Touhou Flandre 1",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "Touhou_Flandre_1.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_01_taisho_maid",
+                      "name":  "Wine Fox Taisho Maid",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_01_taisho_maid.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_02_new_year",
+                      "name":  "Wine Fox New Year",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_02_new_year.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_03_astronaut",
+                      "name":  "Wine Fox Astronaut",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_03_astronaut.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_04_kongfu",
+                      "name":  "Wine Fox Kongfu",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_04_kongfu.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_05_magical",
+                      "name":  "Wine Fox Magical",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_05_magical.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_06_hanfu",
+                      "name":  "Wine Fox Hanfu",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_06_hanfu.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_07_jk",
+                      "name":  "Wine Fox Jk",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_07_jk.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_08_sta",
+                      "name":  "Wine Fox Sta",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_08_sta.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_09_hailuo",
+                      "name":  "Wine Fox Hailuo",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_09_hailuo.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_10_zhiban",
+                      "name":  "Wine Fox Zhiban",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_10_zhiban.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_11_salesperson",
+                      "name":  "Wine Fox Salesperson",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_11_salesperson.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_12_little",
+                      "name":  "Wine Fox Little",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_12_little.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_13_matured",
+                      "name":  "Wine Fox Matured",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_13_matured.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_14_momo",
+                      "name":  "Wine Fox Momo",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_14_momo.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_15_kluonoa",
+                      "name":  "Wine Fox Kluonoa",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_15_kluonoa.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_16_tactics",
+                      "name":  "Wine Fox Tactics",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_16_tactics.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_17_mini",
+                      "name":  "Wine Fox Mini",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_17_mini.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_18_wedding",
+                      "name":  "Wine Fox Wedding",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_18_wedding.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_19_nine_tailed",
+                      "name":  "Wine Fox Nine Tailed",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_19_nine_tailed.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_20_survivor",
+                      "name":  "Wine Fox Survivor",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_20_survivor.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_21_saint",
+                      "name":  "Wine Fox Saint",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_21_saint.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "wine_fox_22_elf",
+                      "name":  "Wine Fox Elf",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "wine_fox_22_elf.ysm",
+                      "downloadUrl":  ""
+                  },
+                  {
+                      "id":  "witch_elaina",
+                      "name":  "Witch Elaina",
+                      "description":  "Custom Yes Steve Model danh rieng cho Da Cuoi Mon",
+                      "price":  1000,
+                      "fileName":  "witch_elaina.ysm",
+                      "downloadUrl":  ""
+                  }
+              ],
+    "launcher_sha256":  "32be6217bec1b967fa63094ae60e6c03c7fd0dcd65a16707412bf7e18d467c25",
+    "launcher_changelog":  [
+                               "Nâng cấp công nghệ Atomic In-Place Swap (Cập nhật tức thì, không giật lag).",
+                               "Tích hợp xác thực mã băm SHA-256 chống lỗi file đường truyền.",
+                               "Giao diện HUD tải cập nhật cao cấp theo thời gian thực (MB/s)."
+                           ]
+}
