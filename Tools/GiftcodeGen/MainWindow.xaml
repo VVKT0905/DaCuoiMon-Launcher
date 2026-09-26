@@ -1,0 +1,438 @@
+<Window x:Class="GiftcodeGen.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Bộ Tạo &amp; Quản Lý Giftcode - Đá Cuội Mon"
+        Width="1020" Height="720" MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#0B0F17" Foreground="#E2E8F0"
+        FontFamily="Segoe UI, Segoe UI Emoji, Arial">
+
+    <Window.Resources>
+        <!-- Modern ScrollBar Style -->
+        <Style TargetType="{x:Type ScrollBar}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="8"/>
+        </Style>
+
+        <!-- Modern Dark Glass Button -->
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Background" Value="#1E293B"/>
+            <Setter Property="Foreground" Value="#F8FAFC"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#334155"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#334155"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#64748B"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#0F172A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Quick Pill Button -->
+        <Style x:Key="PillButton" TargetType="Button">
+            <Setter Property="Background" Value="#1A2234"/>
+            <Setter Property="Foreground" Value="#38BDF8"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#293548"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#25354F"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#38BDF8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Primary Emerald Glow Button -->
+        <Style x:Key="PrimaryEmeraldButton" TargetType="Button">
+            <Setter Property="Background" Value="#00FF9D"/>
+            <Setter Property="Foreground" Value="#042F1A"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Black"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="10" Padding="16,10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#34D399"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#059669"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern Dark TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#0F172A"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="CaretBrush" Value="#00FF9D"/>
+            <Setter Property="BorderBrush" Value="#334155"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#00FF9D"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern CheckBox -->
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#E2E8F0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,4,0,4"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- TOP BAR: Title & Mode Switcher -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="🎫" FontSize="26" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <StackPanel>
+                    <TextBlock Text="BỘ TẠO &amp; QUẢN LÝ GIFTCODE" FontSize="18" FontWeight="Black" Foreground="#FFFFFF"/>
+                    <TextBlock Text="Mã hóa AES-256 + GZip • Hệ thống Đá Cuội Mon" FontSize="11" Foreground="#94A3B8"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Mode Selector Tabs -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button x:Name="BtnTabGenerate" Content="🎁 TẠO GIFTCODE" Style="{StaticResource ActionButton}"
+                        Background="#2563EB" BorderBrush="#3B82F6" Foreground="#FFFFFF" Margin="0,0,8,0"
+                        Click="BtnTabGenerate_Click"/>
+                <Button x:Name="BtnTabInspect" Content="🔍 KIỂM TRA MÃ" Style="{StaticResource ActionButton}"
+                        Click="BtnTabInspect_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- ============================================================== -->
+        <!-- TAB 1: GENERATE GIFTCODES                                     -->
+        <!-- ============================================================== -->
+        <Grid x:Name="GridTabGenerate" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="480"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT: Settings & Skin Pool -->
+            <Border Grid.Column="0" Background="#131B29" CornerRadius="14" BorderBrush="#243247" BorderThickness="1" Padding="16">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <!-- 1. SỐ ĐÁ CUỘI -->
+                        <TextBlock Text="1. PHẦN THƯỞNG ĐÁ CUỘI" FontSize="12" FontWeight="Bold" Foreground="#38BDF8" Margin="0,0,0,6"/>
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TxtCoins" Text="1000" Height="36" FontSize="14" FontWeight="Bold"/>
+                            <TextBlock Grid.Column="1" Text="🪨" FontSize="18" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                        </Grid>
+                        <!-- Quick coin pills -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                            <Button Content="+1,000" Style="{StaticResource PillButton}" Click="BtnQuickCoin_Click" Tag="1000"/>
+                            <Button Content="+5,000" Style="{StaticResource PillButton}" Click="BtnQuickCoin_Click" Tag="5000"/>
+                            <Button Content="+10,000" Style="{StaticResource PillButton}" Click="BtnQuickCoin_Click" Tag="10000"/>
+                            <Button Content="+50,000" Style="{StaticResource PillButton}" Click="BtnQuickCoin_Click" Tag="50000"/>
+                            <Button Content="Xóa (0)" Style="{StaticResource PillButton}" Foreground="#F87171" Click="BtnQuickCoin_Click" Tag="0"/>
+                        </StackPanel>
+
+                        <!-- 2. HẠN SỬ DỤNG MÃ -->
+                        <TextBlock Text="2. THỜI HẠN HIỆU LỰC CỦA MÃ GIFTCODE" FontSize="12" FontWeight="Bold" Foreground="#38BDF8" Margin="0,0,0,6"/>
+                        <ComboBox x:Name="ComboCodeExpiry" Height="34" Margin="0,0,0,16" SelectedIndex="0"
+                                  Background="#0F172A" Foreground="#FFFFFF" BorderBrush="#334155" FontSize="12">
+                            <ComboBoxItem Content="Vĩnh viễn (Không bao giờ hết hạn)"/>
+                            <ComboBoxItem Content="Hết hạn sau 3 ngày"/>
+                            <ComboBoxItem Content="Hết hạn sau 7 ngày"/>
+                            <ComboBoxItem Content="Hết hạn sau 30 ngày"/>
+                            <ComboBoxItem Content="Hết hạn sau 60 ngày"/>
+                        </ComboBox>
+
+                        <!-- 3. CHỌN SKINS TẶNG KÈM -->
+                        <Grid Margin="0,0,0,6">
+                            <TextBlock Text="3. CHỌN SKIN TẶNG KÈM" FontSize="12" FontWeight="Bold" Foreground="#38BDF8" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtPoolCount" Text="Đang tải..." FontSize="11" Foreground="#94A3B8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Search skin box -->
+                        <TextBox x:Name="TxtSkinSearch" Height="32" Margin="0,0,0,8" Padding="8,4"
+                                 Text="" TextChanged="TxtSkinSearch_TextChanged"/>
+
+                        <!-- Skin Mode Selector (Permanent vs Trial) -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="BtnSubTabPerm" Grid.Column="0" Content="Skins Vĩnh Viễn" Height="30"
+                                    Style="{StaticResource ActionButton}" Background="#00FF9D" Foreground="#042F1A"
+                                    BorderBrush="#00FF9D" Margin="0,0,4,0" Click="BtnSubTabPerm_Click"/>
+                            <Button x:Name="BtnSubTabTrial" Grid.Column="1" Content="Skins Dùng Thử" Height="30"
+                                    Style="{StaticResource ActionButton}" Background="#1E293B" Foreground="#94A3B8"
+                                    BorderBrush="#334155" Margin="4,0,0,0" Click="BtnSubTabTrial_Click"/>
+                        </Grid>
+
+                        <!-- Trial Duration Option (Only visible when Trial mode is selected) -->
+                        <Border x:Name="BorderTrialDurationSelector" Background="#1E162A" BorderBrush="#A855F7" BorderThickness="1"
+                                CornerRadius="8" Padding="10,8" Margin="0,0,0,8" Visibility="Collapsed">
+                            <StackPanel>
+                                <TextBlock Text="⏳ THỜI GIAN DÙNG THỬ ÁP DỤNG:" FontSize="11" FontWeight="Bold" Foreground="#D8B4FE" Margin="0,0,0,4"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox x:Name="ComboTrialDuration" Height="28" SelectedIndex="4"
+                                              Background="#0F172A" Foreground="#FFFFFF" BorderBrush="#6B21A8" FontSize="11"
+                                              SelectionChanged="ComboTrialDuration_SelectionChanged">
+                                        <ComboBoxItem Content="12 Giờ (12h)" Tag="12h"/>
+                                        <ComboBoxItem Content="24 Giờ - 1 Ngày (24h)" Tag="24h"/>
+                                        <ComboBoxItem Content="2 Ngày (48h)" Tag="2d"/>
+                                        <ComboBoxItem Content="3 Ngày (72h)" Tag="3d"/>
+                                        <ComboBoxItem Content="7 Ngày - 1 Tuần (168h)" Tag="7d"/>
+                                        <ComboBoxItem Content="14 Ngày - 2 Tuần (336h)" Tag="14d"/>
+                                        <ComboBoxItem Content="30 Ngày - 1 Tháng (720h)" Tag="30d"/>
+                                        <ComboBoxItem Content="Tùy chỉnh số ngày..." Tag="custom"/>
+                                    </ComboBox>
+                                    <StackPanel x:Name="PanelCustomTrial" Grid.Column="1" Orientation="Horizontal" Margin="6,0,0,0" Visibility="Collapsed">
+                                        <TextBox x:Name="TxtCustomTrialDays" Text="7" Width="44" Height="28" FontSize="11" FontWeight="Bold"
+                                                 Padding="4,2" TextAlignment="Center" TextChanged="TxtCustomTrialDays_TextChanged"/>
+                                        <TextBlock Text="ngày" Foreground="#D8B4FE" FontSize="11" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Quick select helpers -->
+                        <Grid Margin="0,0,0,6">
+                            <TextBlock x:Name="TxtSelectedSkinsSummary" Text="Đã chọn: 0 skin" FontSize="11" Foreground="#00FF9D" VerticalAlignment="Center"/>
+                            <Button Content="Bỏ chọn tất cả" FontSize="11" Style="{StaticResource PillButton}"
+                                    HorizontalAlignment="Right" Foreground="#F87171" Click="BtnDeselectAll_Click"/>
+                        </Grid>
+
+                        <!-- Scrollable CheckList of Skins -->
+                        <Border Background="#0C121D" CornerRadius="8" BorderBrush="#1F2A3C" BorderThickness="1" Height="170" Padding="8">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel x:Name="PanelSkinsList">
+                                    <!-- Populated dynamically via code -->
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+
+                        <!-- 4. SỐ LƯỢNG MÃ CẦN TẠO -->
+                        <TextBlock Text="4. SỐ LƯỢNG MÃ MUỐN TẠO" FontSize="12" FontWeight="Bold" Foreground="#38BDF8" Margin="0,14,0,6"/>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TxtGenerateCount" Text="1" Height="36" FontSize="14" FontWeight="Bold"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="8,0,0,0">
+                                <Button Content="1" Style="{StaticResource PillButton}" Click="BtnQuickCount_Click" Tag="1"/>
+                                <Button Content="5" Style="{StaticResource PillButton}" Click="BtnQuickCount_Click" Tag="5"/>
+                                <Button Content="10" Style="{StaticResource PillButton}" Click="BtnQuickCount_Click" Tag="10"/>
+                                <Button Content="50" Style="{StaticResource PillButton}" Click="BtnQuickCount_Click" Tag="50"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- 5. GHI CHÚ NỘI BỘ -->
+                        <TextBlock Text="5. GHI CHÚ / MÔ TẢ (TÙY CHỌN)" FontSize="12" FontWeight="Bold" Foreground="#38BDF8" Margin="0,8,0,6"/>
+                        <TextBox x:Name="TxtCodeNote" Text="Quà Tặng Sự Kiện" Height="32" Margin="0,0,0,16"/>
+
+                        <!-- GENERATE ACTION BUTTON -->
+                        <Button x:Name="BtnGenerate" Content="⚡ TẠO GIFTCODE NGAY" Height="46"
+                                Style="{StaticResource PrimaryEmeraldButton}" Click="BtnGenerate_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- RIGHT: Generated Output Codes -->
+            <Border Grid.Column="2" Background="#131B29" CornerRadius="14" BorderBrush="#243247" BorderThickness="1" Padding="16">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Header -->
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="DANH SÁCH MÃ ĐÃ TẠO" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
+                            <Border x:Name="BadgeCodeCount" Background="#10B981" CornerRadius="10" Padding="6,2" Margin="8,0,0,0" Visibility="Collapsed">
+                                <TextBlock x:Name="TxtBadgeCount" Text="0 mã" FontSize="10" FontWeight="Bold" Foreground="#042F1A"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Status Notification -->
+                        <TextBlock x:Name="TxtCopyStatus" Text="" FontSize="11" FontWeight="Bold" Foreground="#00FF9D"
+                                   HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Text area for generated codes -->
+                    <Border Grid.Row="1" Background="#090D14" CornerRadius="8" BorderBrush="#1C2738" BorderThickness="1" Padding="10">
+                        <TextBox x:Name="TxtGeneratedCodes" Background="Transparent" Foreground="#85FFBD"
+                                 BorderThickness="0" FontFamily="Consolas, Cascadia Code, Courier New" FontSize="12"
+                                 IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                    </Border>
+
+                    <!-- Bottom Action Buttons -->
+                    <Grid Grid.Row="2" Margin="0,12,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="0">
+                            <Button x:Name="BtnCopyAll" Content="📋 Sao chép tất cả" Height="36"
+                                    Style="{StaticResource ActionButton}" Margin="0,0,8,0" Click="BtnCopyAll_Click"/>
+                            <Button x:Name="BtnSaveFile" Content="💾 Lưu ra file .txt..." Height="36"
+                                    Style="{StaticResource ActionButton}" Margin="0,0,8,0" Click="BtnSaveFile_Click"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="1" Content="🗑 Xóa kết quả" Height="36"
+                                Style="{StaticResource ActionButton}" Foreground="#F87171" Click="BtnClearOutput_Click"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ============================================================== -->
+        <!-- TAB 2: INSPECT & DECRYPT GIFTCODE                             -->
+        <!-- ============================================================== -->
+        <Grid x:Name="GridTabInspect" Grid.Row="1" Visibility="Collapsed">
+            <Border Background="#131B29" CornerRadius="14" BorderBrush="#243247" BorderThickness="1" Padding="20">
+                <StackPanel MaxWidth="700" HorizontalAlignment="Center">
+                    <TextBlock Text="🔍 KIỂM TRA &amp; GIẢI MÃ NỘI DUNG GIFTCODE" FontSize="16" FontWeight="Black" Foreground="#FFFFFF" Margin="0,0,0,4"/>
+                    <TextBlock Text="Dán mã quà tặng dạng DCM-... để kiểm tra giải thưởng và thời hạn mà không làm mất lượt sử dụng."
+                               FontSize="12" Foreground="#94A3B8" Margin="0,0,0,16"/>
+
+                    <!-- Input Code Box -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="130"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="TxtInspectInput" Height="40" FontSize="13" Margin="0,0,10,0"
+                                 Padding="10,8" VerticalContentAlignment="Center"/>
+                        <Button Grid.Column="1" Content="🔍 KIỂM TRA" Height="40"
+                                Style="{StaticResource PrimaryEmeraldButton}" Click="BtnInspectCode_Click"/>
+                    </Grid>
+
+                    <!-- Breakdown Result Card -->
+                    <Border x:Name="BorderInspectResult" Background="#0C121D" CornerRadius="12" BorderBrush="#1F2A3C" BorderThickness="1"
+                            Padding="16" Visibility="Collapsed">
+                        <StackPanel>
+                            <!-- Status Header -->
+                            <Grid Margin="0,0,0,14">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock x:Name="TxtInspectStatusIcon" Text="✔" FontSize="18" Foreground="#00FF9D" Margin="0,0,8,0"/>
+                                    <TextBlock x:Name="TxtInspectStatusText" Text="MÃ HỢP LỆ VÀ SẴN SÀNG" FontSize="14" FontWeight="Bold" Foreground="#00FF9D"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Breakdown Grid -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Coins -->
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Đá Cuội:" FontWeight="Bold" Foreground="#94A3B8" Margin="0,4,0,4"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TxtInspectCoins" Text="0 🪨" FontWeight="Bold" Foreground="#00FF9D" Margin="0,4,0,4"/>
+
+                                <!-- Perm Skins -->
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Skin Vĩnh Viễn:" FontWeight="Bold" Foreground="#94A3B8" Margin="0,4,0,4"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" x:Name="TxtInspectPermSkins" Text="Không có" Foreground="#FFFFFF" Margin="0,4,0,4" TextWrapping="Wrap"/>
+
+                                <!-- Trial Skins -->
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Skin Dùng Thử:" FontWeight="Bold" Foreground="#94A3B8" Margin="0,4,0,4"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="TxtInspectTrialSkins" Text="Không có" Foreground="#F59E0B" Margin="0,4,0,4" TextWrapping="Wrap"/>
+
+                                <!-- Expiry -->
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Hạn Dùng Của Mã:" FontWeight="Bold" Foreground="#94A3B8" Margin="0,4,0,4"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" x:Name="TxtInspectExpiry" Text="Vĩnh viễn" Foreground="#38BDF8" Margin="0,4,0,4"/>
+
+                                <!-- Salt & ID -->
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Định Danh Mã:" FontWeight="Bold" Foreground="#94A3B8" Margin="0,4,0,4"/>
+                                <TextBlock Grid.Row="4" Grid.Column="1" x:Name="TxtInspectId" Text="" Foreground="#64748B" FontSize="11" Margin="0,4,0,4"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
