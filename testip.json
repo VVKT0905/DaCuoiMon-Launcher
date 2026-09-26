@@ -1,6 +1,6 @@
 ﻿{
-    "launcher_version":  "2.0.0",
-    "launcher_download_url":  "https://github.com/VVKT0905/AIS-POS-Smart-Supermarket/releases/latest/download/CobblemonLauncher.exe",
+    "launcher_version":  "2.0.1",
+    "launcher_download_url":  "https://github.com/VVKT0905/DaCuoiMon-Launcher/releases/latest/download/CobblemonLauncher.exe",
     "server_ip":  "apex.pikamc.vn:25059",
     "additional_mods":  [
                             {
@@ -773,10 +773,11 @@
                       "downloadUrl":  ""
                   }
               ],
-    "launcher_sha256":  "5254e1861a818a38222be29e520fed58e44dbfb18ea7d47d200528ce8fea0638",
+    "launcher_sha256":  "36b2f71a8a78aeb62900e5252573d67d96de65b2c4102dfb9803216eacf3b914",
     "launcher_changelog":  [
-                               "Nâng cấp công nghệ Atomic In-Place Swap (Cập nhật tức thì, không giật lag).",
-                               "Tích hợp xác thực mã băm SHA-256 chống lỗi file đường truyền.",
-                               "Giao diện HUD tải cập nhật cao cấp theo thời gian thực (MB/s)."
+                               "Bá»• sung thÆ° viá»‡n Architectury API (v13.0.11) há»— trá»£ hoÃ n háº£o Mega Showdown \u0026 Navas ZA Megas.",
+                               "NÃ¢ng cáº¥p cÃ´ng nghá»‡ Atomic In-Place Swap (Cáº­p nháº­t tá»©c thÃ¬, khÃ´ng giáº­t lag).",
+                               "TÃ­ch há»£p xÃ¡c thá»±c mÃ£ bÄƒm SHA-256 chá»‘ng lá»—i file Ä‘Æ°á»ng truyá»n.",
+                               "Giao diá»‡n HUD táº£i cáº­p nháº­t cao cáº¥p theo thá»i gian thá»±c (MB/s)."
                            ]
 }

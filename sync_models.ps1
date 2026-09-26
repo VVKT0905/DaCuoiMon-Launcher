@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # Script: sync_models.ps1
 # Dong bo toan bo Yes Steve Model tu YSM_Models_Pool vao:
 # 1. testip.json (danh sach skin cua Launcher)
@@ -123,23 +123,24 @@ foreach ($file in $pngFiles) {
 Write-Host "[COPY] Da copy toan bo model ($($ysmFiles.Count) ysm, $($pngFiles.Count) png) vao ReleaseApp\models_pool\" -ForegroundColor Green
 
 # 5. Cap nhat payload.zip (bao gom ca Launcher va models_pool)
-Write-Host "[BUILD] Dang bien dich CobblemonLauncher v2.0.0 (toi uu nen SingleFile)..." -ForegroundColor Yellow
+Write-Host "[BUILD] Dang bien dich CobblemonLauncher v2.0.1 (toi uu nen SingleFile)..." -ForegroundColor Yellow
 Stop-Process -Name CobblemonLauncher -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 500
 dotnet publish "$rootDir\CobblemonLauncher\CobblemonLauncher.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o $releaseAppDir
 
-# Tinh ma SHA-256 cho ban cap nhat v2.0.0
+# Tinh ma SHA-256 cho ban cap nhat v2.0.1
 $launcherExePath = Join-Path $releaseAppDir "CobblemonLauncher.exe"
 $launcherSha256 = (Get-FileHash -Path $launcherExePath -Algorithm SHA256).Hash.ToLower()
 Write-Host "[SHA256] Ma SHA-256 cua CobblemonLauncher.exe: $launcherSha256" -ForegroundColor Cyan
 
-# Cap nhat metadata v2.0.0 vao testip va testip.json
+# Cap nhat metadata v2.0.1 vao testip va testip.json
 if (Test-Path $testIpJson) {
     $jsonContent = Get-Content -Path $testIpJson -Raw -Encoding UTF8 | ConvertFrom-Json
-    $jsonContent.launcher_version = "2.0.0"
-    $jsonContent.launcher_download_url = "https://github.com/VVKT0905/AIS-POS-Smart-Supermarket/releases/latest/download/CobblemonLauncher.exe"
+    $jsonContent.launcher_version = "2.0.1"
+    $jsonContent.launcher_download_url = "https://github.com/VVKT0905/DaCuoiMon-Launcher/releases/latest/download/CobblemonLauncher.exe"
     $jsonContent | Add-Member -MemberType NoteProperty -Name "launcher_sha256" -Value $launcherSha256 -Force
     $jsonContent | Add-Member -MemberType NoteProperty -Name "launcher_changelog" -Value @(
+        "Bổ sung thư viện Architectury API (v13.0.11) hỗ trợ hoàn hảo Mega Showdown & Navas ZA Megas.",
         "Nâng cấp công nghệ Atomic In-Place Swap (Cập nhật tức thì, không giật lag).",
         "Tích hợp xác thực mã băm SHA-256 chống lỗi file đường truyền.",
         "Giao diện HUD tải cập nhật cao cấp theo thời gian thực (MB/s)."
@@ -149,7 +150,7 @@ if (Test-Path $testIpJson) {
     [System.IO.File]::WriteAllText($testIpJson, $newJsonStr, [System.Text.Encoding]::UTF8)
     [System.IO.File]::WriteAllText((Join-Path $rootDir "testip"), $newJsonStr, [System.Text.Encoding]::UTF8)
     [System.IO.File]::WriteAllText($cacheJson, $newJsonStr, [System.Text.Encoding]::UTF8)
-    Write-Host "[JSON] Da cap nhat version 2.0.0 va SHA-256 vao testip va testip.json" -ForegroundColor Green
+    Write-Host "[JSON] Da cap nhat version 2.0.1 va SHA-256 vao testip va testip.json" -ForegroundColor Green
 }
 
 $tempPayloadDir = Join-Path $rootDir "temp_payload_build"

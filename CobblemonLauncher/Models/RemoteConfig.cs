@@ -7,7 +7,7 @@ namespace CobblemonLauncher.Models
     public class RemoteConfig
     {
         [JsonPropertyName("launcher_version")]
-        public string LauncherVersion { get; set; } = "2.0.0";
+        public string LauncherVersion { get; set; } = "2.0.1";
 
         [JsonPropertyName("launcher_download_url")]
         public string LauncherDownloadUrl { get; set; } = "";

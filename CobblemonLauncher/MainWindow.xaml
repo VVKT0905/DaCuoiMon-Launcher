@@ -715,7 +715,7 @@
                 </Grid>
 
                 <!-- Launcher Version Display (Bottom Right) -->
-                <TextBlock x:Name="TxtLauncherVersion" Text="v2.0.0" FontSize="11" FontWeight="SemiBold"
+                <TextBlock x:Name="TxtLauncherVersion" Text="v2.0.1" FontSize="11" FontWeight="SemiBold"
                            Foreground="#40FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,18,10"/>
             </Grid>
         </Border>
