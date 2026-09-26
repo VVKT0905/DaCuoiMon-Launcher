@@ -449,6 +449,42 @@ namespace CobblemonLauncher
                         LogMessage($"[Kết Thúc Game] Phiên chơi: {playSeconds / 60} phút {playSeconds % 60} giây. Tổng số dư: {_config.CobbleCoins:N0} Đá Cuội.");
                     });
                 }
+                else
+                {
+                    // Minecraft exited or crashed before its main window appeared
+                    Dispatcher.Invoke(() =>
+                    {
+                        Show();
+                        WindowState = WindowState.Normal;
+                        Activate();
+                        PanelPreLaunch.Visibility = Visibility.Visible;
+                        PanelLoading.Visibility = Visibility.Collapsed;
+
+                        int exitCode = -1;
+                        try { exitCode = proc.ExitCode; } catch { }
+
+                        string crashDetails = "";
+                        try
+                        {
+                            string crashDir = Path.Combine(_config.GetEffectiveGameDir(), "crash-reports");
+                            if (Directory.Exists(crashDir))
+                            {
+                                var latestCrash = new DirectoryInfo(crashDir)
+                                    .GetFiles("crash-*.txt")
+                                    .OrderByDescending(f => f.LastWriteTime)
+                                    .FirstOrDefault();
+                                if (latestCrash != null && (DateTime.Now - latestCrash.LastWriteTime).TotalMinutes < 3)
+                                {
+                                    crashDetails = $" (Xem báo cáo: {latestCrash.Name})";
+                                }
+                            }
+                        }
+                        catch { }
+
+                        TxtStatus.Text = $"Game đã đóng đột ngột (Mã lỗi: {exitCode}).{crashDetails}";
+                        LogMessage($"[CẢNH BÁO] Minecraft đã thoát trước khi hiển thị màn hình (Mã thoát: {exitCode}).{crashDetails}");
+                    });
+                }
             });
         }
 

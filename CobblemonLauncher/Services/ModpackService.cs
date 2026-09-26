@@ -249,7 +249,9 @@ namespace CobblemonLauncher.Services
                 "ForgeConfigAPIPort*26.*",
                 "lavender*1.21.4*",
                 "lavender*1.21.2*",
-                "lavender*1.21.3*"
+                "lavender*1.21.3*",
+                "owo-lib*0.13*",
+                "owo-lib*alpha*"
             };
 
             foreach (var pattern in badPatterns)

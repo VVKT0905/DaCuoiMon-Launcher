@@ -229,15 +229,6 @@
                                 "isResourcepack":  false
                             },
                             {
-                                "name":  "oωo (owo-lib)",
-                                "slug":  "owo-lib",
-                                "fileName":  "owo-lib-0.13.0-alpha.15+1.21.jar",
-                                "downloadUrl":  "https://cdn.modrinth.com/data/ccKDOlHs/versions/m3XmDd8j/owo-lib-0.13.0-alpha.15%2B1.21.jar",
-                                "expectedSize":  1963544,
-                                "isDatapack":  false,
-                                "isResourcepack":  false
-                            },
-                            {
                                 "name":  "Lithostitched",
                                 "slug":  "lithostitched",
                                 "fileName":  "lithostitched-1.8.0-fabric-21.1.jar",
@@ -773,7 +764,7 @@
                       "downloadUrl":  ""
                   }
               ],
-    "launcher_sha256":  "bd8dbb56935ecf5d76649a5a03f9941c5499eaf3e40a6323b4f2fa132aafc778",
+    "launcher_sha256":  "a19f2ca2896a754875234b6f5902851d7b7429e611bf6bf72bd64c9e13dcf226",
     "launcher_changelog":  [
                                "Bá»• sung thÆ° viá»‡n Architectury API (v13.0.11) há»— trá»£ hoÃ n háº£o Mega Showdown \u0026 Navas ZA Megas.",
                                "NÃ¢ng cáº¥p cÃ´ng nghá»‡ Atomic In-Place Swap (Cáº­p nháº­t tá»©c thÃ¬, khÃ´ng giáº­t lag).",
