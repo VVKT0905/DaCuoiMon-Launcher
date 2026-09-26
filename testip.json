@@ -1,4 +1,4 @@
-﻿{
+{
     "launcher_version":  "2.0.1",
     "launcher_download_url":  "https://github.com/VVKT0905/DaCuoiMon-Launcher/releases/latest/download/CobblemonLauncher.exe",
     "server_ip":  "apex.pikamc.vn:25059",
@@ -773,7 +773,7 @@
                       "downloadUrl":  ""
                   }
               ],
-    "launcher_sha256":  "36b2f71a8a78aeb62900e5252573d67d96de65b2c4102dfb9803216eacf3b914",
+    "launcher_sha256":  "bd8dbb56935ecf5d76649a5a03f9941c5499eaf3e40a6323b4f2fa132aafc778",
     "launcher_changelog":  [
                                "Bá»• sung thÆ° viá»‡n Architectury API (v13.0.11) há»— trá»£ hoÃ n háº£o Mega Showdown \u0026 Navas ZA Megas.",
                                "NÃ¢ng cáº¥p cÃ´ng nghá»‡ Atomic In-Place Swap (Cáº­p nháº­t tá»©c thÃ¬, khÃ´ng giáº­t lag).",

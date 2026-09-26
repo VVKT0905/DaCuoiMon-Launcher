@@ -91,9 +91,10 @@ if (Test-Path $testIpJson) {
 
     $jsonContent.skins = $skinsList
     $newJsonStr = $jsonContent | ConvertTo-Json -Depth 10
-    [System.IO.File]::WriteAllText($testIpJson, $newJsonStr, [System.Text.Encoding]::UTF8)
-    [System.IO.File]::WriteAllText((Join-Path $rootDir "testip"), $newJsonStr, [System.Text.Encoding]::UTF8)
-    [System.IO.File]::WriteAllText($cacheJson, $newJsonStr, [System.Text.Encoding]::UTF8)
+    $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+    [System.IO.File]::WriteAllText($testIpJson, $newJsonStr, $utf8NoBom)
+    [System.IO.File]::WriteAllText((Join-Path $rootDir "testip"), $newJsonStr, $utf8NoBom)
+    [System.IO.File]::WriteAllText($cacheJson, $newJsonStr, $utf8NoBom)
     Write-Host "[JSON] Da cap nhat $($skinsList.Count) skin vao testip, testip.json va remote_config_cache.json" -ForegroundColor Green
 }
 
@@ -147,9 +148,10 @@ if (Test-Path $testIpJson) {
     ) -Force
 
     $newJsonStr = $jsonContent | ConvertTo-Json -Depth 10
-    [System.IO.File]::WriteAllText($testIpJson, $newJsonStr, [System.Text.Encoding]::UTF8)
-    [System.IO.File]::WriteAllText((Join-Path $rootDir "testip"), $newJsonStr, [System.Text.Encoding]::UTF8)
-    [System.IO.File]::WriteAllText($cacheJson, $newJsonStr, [System.Text.Encoding]::UTF8)
+    $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+    [System.IO.File]::WriteAllText($testIpJson, $newJsonStr, $utf8NoBom)
+    [System.IO.File]::WriteAllText((Join-Path $rootDir "testip"), $newJsonStr, $utf8NoBom)
+    [System.IO.File]::WriteAllText($cacheJson, $newJsonStr, $utf8NoBom)
     Write-Host "[JSON] Da cap nhat version 2.0.1 va SHA-256 vao testip va testip.json" -ForegroundColor Green
 }
 

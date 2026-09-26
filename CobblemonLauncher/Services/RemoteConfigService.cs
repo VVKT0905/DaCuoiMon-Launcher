@@ -32,16 +32,19 @@ namespace CobblemonLauncher.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string raw = await response.Content.ReadAsStringAsync();
-                    raw = raw.Trim();
+                    raw = raw.Trim().Trim('\uFEFF', '\u200B', '\uFEFE');
 
                     RemoteConfig? config = null;
 
-                    // Try parsing as JSON
-                    if (raw.StartsWith("{") && raw.EndsWith("}"))
+                    // Try parsing as JSON (resilient to BOM and whitespace)
+                    int firstBrace = raw.IndexOf('{');
+                    int lastBrace = raw.LastIndexOf('}');
+                    if (firstBrace >= 0 && lastBrace > firstBrace)
                     {
                         try
                         {
-                            config = JsonSerializer.Deserialize<RemoteConfig>(raw, JsonOptions);
+                            string jsonSpan = raw.Substring(firstBrace, lastBrace - firstBrace + 1);
+                            config = JsonSerializer.Deserialize<RemoteConfig>(jsonSpan, JsonOptions);
                         }
                         catch { }
                     }
