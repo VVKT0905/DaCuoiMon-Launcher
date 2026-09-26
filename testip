@@ -1,4 +1,4 @@
-﻿{
+{
     "launcher_version":  "2.0.0",
     "launcher_download_url":  "https://github.com/VVKT0905/AIS-POS-Smart-Supermarket/releases/latest/download/CobblemonLauncher.exe",
     "server_ip":  "apex.pikamc.vn:25059",
@@ -270,6 +270,15 @@
                                 "fileName":  "athena-fabric-1.21.1-4.0.6.jar",
                                 "downloadUrl":  "https://cdn.modrinth.com/data/b1ZV3DIJ/versions/JfyYsWKP/athena-fabric-1.21.1-4.0.6.jar",
                                 "expectedSize":  88425,
+                                "isDatapack":  false,
+                                "isResourcepack":  false
+                            },
+                            {
+                                "name":  "Architectury API",
+                                "slug":  "architectury-api",
+                                "fileName":  "architectury-13.0.11-fabric.jar",
+                                "downloadUrl":  "https://cdn.modrinth.com/data/lhGA9TYQ/versions/Pzc2FP5K/architectury-13.0.11-fabric.jar",
+                                "expectedSize":  600921,
                                 "isDatapack":  false,
                                 "isResourcepack":  false
                             }
