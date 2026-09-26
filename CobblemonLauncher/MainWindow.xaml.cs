@@ -16,7 +16,7 @@ namespace CobblemonLauncher
 {
     public partial class MainWindow : Window
     {
-        private const string ServerIpUrl = "https://raw.githubusercontent.com/VVKT0905/AIS-POS-Smart-Supermarket/refs/heads/master/testip";
+        private const string ServerIpUrl = "https://raw.githubusercontent.com/VVKT0905/DaCuoiMon-Launcher/main/testip";
         private AppConfig _config;
         private string _serverAddress = "127.0.0.1:25565";
         private bool _isDebugMode = false;

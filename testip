@@ -1,4 +1,4 @@
-{
+﻿{
     "launcher_version":  "2.0.0",
     "launcher_download_url":  "https://github.com/VVKT0905/AIS-POS-Smart-Supermarket/releases/latest/download/CobblemonLauncher.exe",
     "server_ip":  "apex.pikamc.vn:25059",
@@ -773,7 +773,7 @@
                       "downloadUrl":  ""
                   }
               ],
-    "launcher_sha256":  "32be6217bec1b967fa63094ae60e6c03c7fd0dcd65a16707412bf7e18d467c25",
+    "launcher_sha256":  "5254e1861a818a38222be29e520fed58e44dbfb18ea7d47d200528ce8fea0638",
     "launcher_changelog":  [
                                "Nâng cấp công nghệ Atomic In-Place Swap (Cập nhật tức thì, không giật lag).",
                                "Tích hợp xác thực mã băm SHA-256 chống lỗi file đường truyền.",
