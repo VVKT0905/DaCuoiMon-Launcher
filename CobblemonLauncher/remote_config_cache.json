@@ -1,5 +1,5 @@
 {
-    "launcher_version":  "2.0.1",
+    "launcher_version":  "2.0.2",
     "launcher_download_url":  "https://github.com/VVKT0905/DaCuoiMon-Launcher/releases/latest/download/CobblemonLauncher.exe",
     "server_ip":  "apex.pikamc.vn:25059",
     "additional_mods":  [
@@ -764,11 +764,11 @@
                       "downloadUrl":  ""
                   }
               ],
-    "launcher_sha256":  "a19f2ca2896a754875234b6f5902851d7b7429e611bf6bf72bd64c9e13dcf226",
+    "launcher_sha256":  "1c5c44773c98ea950ccfc98e5ac57ff82191dbab46d118f43121f0e591b61de3",
     "launcher_changelog":  [
-                               "Bá»• sung thÆ° viá»‡n Architectury API (v13.0.11) há»— trá»£ hoÃ n háº£o Mega Showdown \u0026 Navas ZA Megas.",
-                               "NÃ¢ng cáº¥p cÃ´ng nghá»‡ Atomic In-Place Swap (Cáº­p nháº­t tá»©c thÃ¬, khÃ´ng giáº­t lag).",
-                               "TÃ­ch há»£p xÃ¡c thá»±c mÃ£ bÄƒm SHA-256 chá»‘ng lá»—i file Ä‘Æ°á»ng truyá»n.",
-                               "Giao diá»‡n HUD táº£i cáº­p nháº­t cao cáº¥p theo thá»i gian thá»±c (MB/s)."
+                               "Hotfix: Khac phuc triet de loi xung dot owo-lib va particular mod khi khoi chay game.",
+                               "Tu dong phuc hoi giao dien Launcher va trich xuat crash log khi Minecraft thoat som.",
+                               "Tich hop Architectury API (v13.0.11) ho tro hoan hao Mega Showdown va Navas ZA Megas.",
+                               "Nang cap cong nghe Atomic In-Place Swap va xac thuc toan ven SHA-256."
                            ]
 }

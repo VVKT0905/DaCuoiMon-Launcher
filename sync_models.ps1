@@ -124,27 +124,27 @@ foreach ($file in $pngFiles) {
 Write-Host "[COPY] Da copy toan bo model ($($ysmFiles.Count) ysm, $($pngFiles.Count) png) vao ReleaseApp\models_pool\" -ForegroundColor Green
 
 # 5. Cap nhat payload.zip (bao gom ca Launcher va models_pool)
-Write-Host "[BUILD] Dang bien dich CobblemonLauncher v2.0.1 (toi uu nen SingleFile)..." -ForegroundColor Yellow
+Write-Host "[BUILD] Dang bien dich CobblemonLauncher v2.0.2 (toi uu nen SingleFile)..." -ForegroundColor Yellow
 Stop-Process -Name CobblemonLauncher -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 500
 dotnet publish "$rootDir\CobblemonLauncher\CobblemonLauncher.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o $releaseAppDir
 
-# Tinh ma SHA-256 cho ban cap nhat v2.0.1
+# Tinh ma SHA-256 cho ban cap nhat v2.0.2
 $launcherExePath = Join-Path $releaseAppDir "CobblemonLauncher.exe"
 $launcherSha256 = (Get-FileHash -Path $launcherExePath -Algorithm SHA256).Hash.ToLower()
 Write-Host "[SHA256] Ma SHA-256 cua CobblemonLauncher.exe: $launcherSha256" -ForegroundColor Cyan
 
-# Cap nhat metadata v2.0.1 vao testip va testip.json
+# Cap nhat metadata v2.0.2 vao testip va testip.json
 if (Test-Path $testIpJson) {
     $jsonContent = Get-Content -Path $testIpJson -Raw -Encoding UTF8 | ConvertFrom-Json
-    $jsonContent.launcher_version = "2.0.1"
+    $jsonContent.launcher_version = "2.0.2"
     $jsonContent.launcher_download_url = "https://github.com/VVKT0905/DaCuoiMon-Launcher/releases/latest/download/CobblemonLauncher.exe"
     $jsonContent | Add-Member -MemberType NoteProperty -Name "launcher_sha256" -Value $launcherSha256 -Force
     $jsonContent | Add-Member -MemberType NoteProperty -Name "launcher_changelog" -Value @(
-        "Bổ sung thư viện Architectury API (v13.0.11) hỗ trợ hoàn hảo Mega Showdown & Navas ZA Megas.",
-        "Nâng cấp công nghệ Atomic In-Place Swap (Cập nhật tức thì, không giật lag).",
-        "Tích hợp xác thực mã băm SHA-256 chống lỗi file đường truyền.",
-        "Giao diện HUD tải cập nhật cao cấp theo thời gian thực (MB/s)."
+        "Hotfix: Khac phuc triet de loi xung dot owo-lib va particular mod khi khoi chay game.",
+        "Tu dong phuc hoi giao dien Launcher va trich xuat crash log khi Minecraft thoat som.",
+        "Tich hop Architectury API (v13.0.11) ho tro hoan hao Mega Showdown va Navas ZA Megas.",
+        "Nang cap cong nghe Atomic In-Place Swap va xac thuc toan ven SHA-256."
     ) -Force
 
     $newJsonStr = $jsonContent | ConvertTo-Json -Depth 10
@@ -152,7 +152,7 @@ if (Test-Path $testIpJson) {
     [System.IO.File]::WriteAllText($testIpJson, $newJsonStr, $utf8NoBom)
     [System.IO.File]::WriteAllText((Join-Path $rootDir "testip"), $newJsonStr, $utf8NoBom)
     [System.IO.File]::WriteAllText($cacheJson, $newJsonStr, $utf8NoBom)
-    Write-Host "[JSON] Da cap nhat version 2.0.1 va SHA-256 vao testip va testip.json" -ForegroundColor Green
+    Write-Host "[JSON] Da cap nhat version 2.0.2 va SHA-256 vao testip va testip.json" -ForegroundColor Green
 }
 
 $tempPayloadDir = Join-Path $rootDir "temp_payload_build"

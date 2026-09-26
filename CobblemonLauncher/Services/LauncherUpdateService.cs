@@ -47,7 +47,7 @@ namespace CobblemonLauncher.Services
                 }
             }
             catch { }
-            return "2.0.1";
+            return "2.0.2";
         }
 
         public static void CleanupOldFiles()
@@ -164,7 +164,7 @@ namespace CobblemonLauncher.Services
                                 SpeedMBps = currentSpeedMBps,
                                 BytesReceived = totalRead,
                                 TotalBytes = totalBytes,
-                                StatusText = $"Đang tải Launcher v2.0.0 ({totalRead / 1024 / 1024:0.#} MB / {totalBytes / 1024 / 1024:0.#} MB)"
+                                StatusText = $"Đang tải bản cập nhật ({totalRead / 1024 / 1024:0.#} MB / {totalBytes / 1024 / 1024:0.#} MB)"
                             });
                         }
                     }
@@ -249,7 +249,7 @@ namespace CobblemonLauncher.Services
                     {
                         Percent = 100,
                         IsCompleted = true,
-                        StatusText = "Cập nhật thành công! Đang khởi động Launcher v2.0.0..."
+                        StatusText = "Cập nhật thành công! Đang khởi động Launcher..."
                     });
 
                     // 3. Launch the new version immediately
